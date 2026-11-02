@@ -97,6 +97,8 @@ export function toPostCard(entry: CollectionEntry<"blog">): ContentCardProps {
     title: data.title,
     description: data.description,
     cta: "Leer",
+    lang: data.lang ?? "es",
+    tkey: data.translationKey ?? entry.id,
   };
 }
 

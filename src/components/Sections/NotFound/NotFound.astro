@@ -16,10 +16,12 @@ import { siteSettings } from "@config/siteSettings.json";
 
 interface Props {
   title: string;
+  titleEn?: string;
   description: string;
+  descriptionEn?: string;
 }
 
-const { title, description } = Astro.props as Props;
+const { title, titleEn, description, descriptionEn } = Astro.props as Props;
 ---
 
 <section
@@ -45,12 +47,16 @@ const { title, description } = Astro.props as Props;
     </p>
 
     <div class="flex flex-col items-center gap-3">
-      <h1 class="h2 text-info text-balance">{title}</h1>
-      <p class="text-muted-foreground max-w-xl text-base text-balance">{description}</p>
+      <h1 class="h2 text-info text-balance">
+        <span class="lang-es">{title}</span>{titleEn && <span class="lang-en">{titleEn}</span>}
+      </h1>
+      <p class="text-muted-foreground max-w-xl text-base text-balance">
+        <span class="lang-es">{description}</span>{descriptionEn && <span class="lang-en">{descriptionEn}</span>}
+      </p>
     </div>
 
     <a href="/about/" class="pixel-btn pixel-btn--blue mt-1 px-5 py-4 text-sm uppercase sm:text-base">
-      Volver
+      <span class="lang-es">Volver</span><span class="lang-en">Back</span>
     </a>
   </PixelPanel>
 </section>

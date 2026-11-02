@@ -16,13 +16,16 @@ import { PixelPanel } from "@components/ui/pixel-panel";
 interface Props {
   /** the bracketed retro tag rendered in the pixel Badge (e.g. "Player 1", "Mission Control"). */
   tagline: string;
+  taglineEn?: string;
   heading: string;
+  headingEn?: string;
   /** id the panel's `aria-labelledby` points at; also the H1's id. Unique per page. */
   headingId: string;
   /** single intro paragraph; omit when the page supplies its own body via the slot (About's bio). */
   intro?: string;
+  introEn?: string;
 }
-const { tagline, heading, headingId, intro } = Astro.props as Props;
+const { tagline, taglineEn, heading, headingEn, headingId, intro, introEn } = Astro.props as Props;
 ---
 
 <PixelPanel
@@ -31,11 +34,21 @@ const { tagline, heading, headingId, intro } = Astro.props as Props;
   aria-labelledby={headingId}
   class="flex flex-col items-start gap-4 p-6 sm:p-8 md:p-9"
 >
-  <Badge pixel variant="info">{tagline}</Badge>
+  <Badge pixel variant="info">
+    <span class="lang-es">{tagline}</span>{taglineEn && <span class="lang-en">{taglineEn}</span>}
+  </Badge>
 
-  <h1 id={headingId} class="h1 text-info text-balance">{heading}</h1>
+  <h1 id={headingId} class="h1 text-info text-balance">
+    <span class="lang-es">{heading}</span>{headingEn && <span class="lang-en">{headingEn}</span>}
+  </h1>
 
-  {intro && <p class="text-muted-foreground text-base leading-relaxed">{intro}</p>}
+  {
+    intro && (
+      <p class="text-muted-foreground text-base leading-relaxed">
+        <span class="lang-es">{intro}</span>{introEn && <span class="lang-en">{introEn}</span>}
+      </p>
+    )
+  }
 
   <slot />
 </PixelPanel>

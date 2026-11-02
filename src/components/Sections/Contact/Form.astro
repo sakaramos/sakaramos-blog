@@ -42,7 +42,9 @@ const FIELDS = [
   {
     name: "name",
     label: "Nombre",
+    labelEn: "Name",
     placeholder: "Tu nombre",
+    placeholderEn: "Your name",
     as: "input",
     type: "text",
     autocomplete: "name",
@@ -51,9 +53,11 @@ const FIELDS = [
   {
     name: "email",
     label: "Correo",
+    labelEn: "Email",
     // example.com, never an invented domain: the Astro theme-catalogue review strictly enforces it,
     // since a made-up domain can resolve to a real site and draw unwanted contact.
     placeholder: "tu@correo.com",
+    placeholderEn: "you@email.com",
     as: "input",
     type: "email",
     autocomplete: "email",
@@ -62,7 +66,9 @@ const FIELDS = [
   {
     name: "subject",
     label: "Asunto",
+    labelEn: "Subject",
     placeholder: "De qué se trata",
+    placeholderEn: "What it's about",
     as: "input",
     type: "text",
     autocomplete: "off",
@@ -71,7 +77,9 @@ const FIELDS = [
   {
     name: "message",
     label: "Mensaje",
+    labelEn: "Message",
     placeholder: "Escribe tu mensaje...",
+    placeholderEn: "Write your message...",
     as: "textarea",
     autocomplete: "off",
     maxlength: 5000,
@@ -95,17 +103,20 @@ const fieldClass = [
       class="primary-focus flex flex-col items-start gap-3 p-8"
     >
       <Badge pixel variant="success">
-        Enviado
+        <span class="lang-es">Enviado</span><span class="lang-en">Sent</span>
       </Badge>
-      <h2 class="h3 text-foreground">Mensaje enviado.</h2>
+      <h2 class="h3 text-foreground">
+        <span class="lang-es">Mensaje enviado.</span><span class="lang-en">Message sent.</span>
+      </h2>
       <p class="text-muted-foreground text-sm">
-        Gracias. Recibí tu mensaje y te respondo a ese correo.
+        <span class="lang-es">Gracias. Recibí tu mensaje y te respondo a ese correo.</span>
+        <span class="lang-en">Thanks. I got your message and I'll reply to that email.</span>
       </p>
     </PixelPanel>
   ) : (
     <PixelPanel elevated class="flex flex-col gap-6 p-6 sm:p-8">
       <h2 class="text-secondary-700 dark:text-secondary font-display text-base uppercase sm:text-lg">
-        Enviar mensaje
+        <span class="lang-es">Enviar mensaje</span><span class="lang-en">Send a message</span>
       </h2>
 
       {formError && (
@@ -128,6 +139,8 @@ const fieldClass = [
             id: field.name,
             name: field.name,
             placeholder: field.placeholder,
+            "data-es-placeholder": field.placeholder,
+            "data-en-placeholder": field.placeholderEn,
             autocomplete: field.autocomplete,
             required: true,
             maxlength: field.maxlength,
@@ -138,7 +151,7 @@ const fieldClass = [
           return (
             <div class="flex flex-col gap-2">
               <Label for={field.name} class="text-info font-display text-xs uppercase">
-                {field.label}
+                <span class="lang-es">{field.label}</span><span class="lang-en">{field.labelEn}</span>
               </Label>
               {field.as === "textarea" ? (
                 <Textarea {...attrs} minlength={10} class={`${fieldClass} min-h-[120px] py-3`} />
@@ -168,7 +181,7 @@ const fieldClass = [
           type="submit"
           class="pixel-btn pixel-btn--green mt-2 self-start px-6 py-3 text-sm uppercase sm:text-base"
         >
-          Enviar
+          <span class="lang-es">Enviar</span><span class="lang-en">Send</span>
         </button>
       </form>
     </PixelPanel>

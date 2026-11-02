@@ -7,9 +7,11 @@ import siteData from "@config/siteData.json";
 import BaseLayout from "@layouts/BaseLayout.astro";
 
 const title = "Página no encontrada";
+const titleEn = "Page not found";
 const description = "Esa página no existe o ya no está. Vuelve a sakaramos.";
+const descriptionEn = "That page doesn't exist or is gone. Back to sakaramos.";
 ---
 
-<BaseLayout title={`${title} — ${siteData.name}`} description={description} noindex={true}>
-  <NotFound title={title} description={description} />
+<BaseLayout title={`${title} — ${siteData.name}`} titleEn={`${titleEn} — ${siteData.name}`} description={description} noindex={true}>
+  <NotFound title={title} titleEn={titleEn} description={description} descriptionEn={descriptionEn} />
 </BaseLayout>

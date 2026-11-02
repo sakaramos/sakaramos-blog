@@ -28,6 +28,7 @@ export interface SiteDataProps {
 // primary navigation (the header link set). See src/config/navData.json.ts.
 export interface NavItemProps {
   label: string; // Title-case; uppercased in the UI (Press Start 2P)
+  labelEn?: string;
   href: string; // trailing-slash route (astro.config `trailingSlash: "always"`)
 }
 

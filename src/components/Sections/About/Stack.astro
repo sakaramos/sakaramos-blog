@@ -4,10 +4,12 @@ import { PixelIcon, type PixelIconName } from "@components/svg/pixel-icons";
 
 const groups: readonly {
   title: string;
-  items: readonly { name: string; icon: PixelIconName }[];
+  titleEn: string;
+  items: readonly { name: string; nameEn?: string; icon: PixelIconName }[];
 }[] = [
   {
     title: "Lenguajes",
+    titleEn: "Languages",
     items: [
       { name: "Python", icon: "flash" },
       { name: "JavaScript", icon: "code" },
@@ -18,6 +20,7 @@ const groups: readonly {
   },
   {
     title: "Backend y APIs",
+    titleEn: "Backend and APIs",
     items: [
       { name: "Node.js", icon: "server" },
       { name: "NestJS", icon: "package" },
@@ -27,6 +30,7 @@ const groups: readonly {
   },
   {
     title: "Frontend",
+    titleEn: "Frontend",
     items: [
       { name: "React", icon: "component" },
       { name: "Next.js", icon: "code" },
@@ -36,6 +40,7 @@ const groups: readonly {
   },
   {
     title: "Bases de datos",
+    titleEn: "Databases",
     items: [
       { name: "PostgreSQL", icon: "server" },
       { name: "MongoDB", icon: "server" },
@@ -44,6 +49,7 @@ const groups: readonly {
   },
   {
     title: "Cloud y DevOps",
+    titleEn: "Cloud and DevOps",
     items: [
       { name: "AWS", icon: "globe" },
       { name: "Docker", icon: "package" },
@@ -54,6 +60,7 @@ const groups: readonly {
   },
   {
     title: "Servicios de AWS",
+    titleEn: "AWS services",
     items: [
       { name: "S3", icon: "package" },
       { name: "EC2", icon: "server" },
@@ -67,6 +74,7 @@ const groups: readonly {
   },
   {
     title: "Herramientas",
+    titleEn: "Tools",
     items: [
       { name: "VS Code", icon: "code" },
       { name: "WebStorm", icon: "code" },
@@ -77,12 +85,13 @@ const groups: readonly {
   },
   {
     title: "Intereses",
+    titleEn: "Interests",
     items: [
-      { name: "IA para desarrollo", icon: "flash" },
-      { name: "Arquitectura de software", icon: "component" },
+      { name: "IA para desarrollo", nameEn: "AI for development", icon: "flash" },
+      { name: "Arquitectura de software", nameEn: "Software architecture", icon: "component" },
       { name: "CI/CD", icon: "package" },
-      { name: "Automatización", icon: "code" },
-      { name: "Sistemas escalables", icon: "server" },
+      { name: "Automatización", nameEn: "Automation", icon: "code" },
+      { name: "Sistemas escalables", nameEn: "Scalable systems", icon: "server" },
       { name: "Cloud computing", icon: "globe" },
       { name: "Testing", icon: "type" },
     ],
@@ -91,26 +100,41 @@ const groups: readonly {
 ---
 
 <section aria-labelledby="stack-heading" class="flex flex-col gap-6">
-  <SectionHeading id="stack-heading" title="Stack tecnológico" />
+  <SectionHeading id="stack-heading" title="Stack tecnológico" titleEn="Technology stack" />
   <p class="text-muted-foreground text-base">
-    Tecnologías y herramientas que me interesa aprender, explorar y seguir incorporando a mi
-    desarrollo profesional. Las que más uso hoy son <span class="text-info font-bold">Node.js</span>,{" "}
-    <span class="text-info font-bold">NestJS</span>, <span class="text-info font-bold">Next.js</span>,{" "}
-    <span class="text-info font-bold">TypeScript</span>, <span class="text-info font-bold">PostgreSQL</span>,{" "}
-    <span class="text-info font-bold">API REST</span>, <span class="text-info font-bold">Docker</span>,{" "}
-    <span class="text-info font-bold">AWS</span>, <span class="text-info font-bold">Git</span> y{" "}
-    <span class="text-info font-bold">Cursor</span>.
+    <span class="lang-es">
+      Tecnologías y herramientas que me interesa aprender, explorar y seguir incorporando a mi
+      desarrollo profesional. Las que más uso hoy son <span class="text-info font-bold">Node.js</span>,{" "}
+      <span class="text-info font-bold">NestJS</span>, <span class="text-info font-bold">Next.js</span>,{" "}
+      <span class="text-info font-bold">TypeScript</span>, <span class="text-info font-bold">PostgreSQL</span>,{" "}
+      <span class="text-info font-bold">API REST</span>, <span class="text-info font-bold">Docker</span>,{" "}
+      <span class="text-info font-bold">AWS</span>, <span class="text-info font-bold">Git</span> y{" "}
+      <span class="text-info font-bold">Cursor</span>.
+    </span>
+    <span class="lang-en">
+      Technologies and tools I want to learn, explore, and keep using in my work. The ones I use most
+      today are <span class="text-info font-bold">Node.js</span>, <span class="text-info font-bold">NestJS</span>,{" "}
+      <span class="text-info font-bold">Next.js</span>, <span class="text-info font-bold">TypeScript</span>,{" "}
+      <span class="text-info font-bold">PostgreSQL</span>, <span class="text-info font-bold">REST APIs</span>,{" "}
+      <span class="text-info font-bold">Docker</span>, <span class="text-info font-bold">AWS</span>,{" "}
+      <span class="text-info font-bold">Git</span>, and <span class="text-info font-bold">Cursor</span>.
+    </span>
   </p>
   <ul class="flex flex-col gap-6">
     {
       groups.map((group) => (
         <li class="flex flex-col gap-3">
-          <h3 class="h3 text-foreground">{group.title}</h3>
+          <h3 class="h3 text-foreground">
+            <span class="lang-es">{group.title}</span><span class="lang-en">{group.titleEn}</span>
+          </h3>
           <ul class="flex flex-wrap gap-3">
             {group.items.map((item) => (
               <li class="border-border bg-card shadow-pixel inline-flex items-center gap-2 border-4 px-3 py-2">
                 <PixelIcon name={item.icon} size="sm" />
-                <span class="font-display text-foreground text-sm uppercase">{item.name}</span>
+                <span class="font-display text-foreground text-sm uppercase">
+                  <span class="lang-es">{item.name}</span>
+                  <span class="lang-en">{item.nameEn ?? item.name}</span>
+                </span>
               </li>
             ))}
           </ul>

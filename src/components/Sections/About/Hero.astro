@@ -40,20 +40,38 @@ const links: readonly {
 ];
 ---
 
-<HeroPanel headingId="about-hero-heading" tagline="Sobre mí" heading="Soy Andres Ramos">
+<HeroPanel
+  headingId="about-hero-heading"
+  tagline="Sobre mí"
+  taglineEn="About me"
+  heading="Soy Andres Ramos"
+  headingEn="I'm Andres Ramos"
+>
   <div class="flex w-full flex-col items-center gap-6 md:flex-row md:items-start md:justify-between">
     <div class="text-muted-foreground flex flex-col gap-4 text-base leading-relaxed">
-      <p>
+      <p class="lang-es">
         Soy <span class={highlight}>desarrollador de software</span> con más de 4 años de experiencia,
         sobre todo en backend. Soy de Pitalito, Huila.
       </p>
-      <p>
+      <p class="lang-en">
+        I'm a <span class={highlight}>software developer</span> with more than 4 years of experience,
+        mostly in backend. I'm from Pitalito, Huila.
+      </p>
+      <p class="lang-es">
         Ahora estoy usando la <span class={highlight}>inteligencia artificial</span> para cambiar la forma
         en que se construye software. Me importa crear productos, liderar el trabajo técnico, escribir
         código limpio y llevarlo a la nube.
       </p>
-      <p>
+      <p class="lang-en">
+        I'm using <span class={highlight}>artificial intelligence</span> to change how software is built.
+        I care about creating products, leading the technical work, writing clean code, and shipping it
+        to the cloud.
+      </p>
+      <p class="lang-es">
         Fuera de la tecnología, levanto pesas, escucho música, leo y sigo lo que me despierta curiosidad.
+      </p>
+      <p class="lang-en">
+        Outside of technology, I lift weights, listen to music, read, and follow whatever makes me curious.
       </p>
     </div>
     <img

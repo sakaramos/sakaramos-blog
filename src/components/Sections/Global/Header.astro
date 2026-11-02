@@ -11,6 +11,7 @@
 // `.pixel-btn` (global.css), and ui/theme-toggle. No new primitives. The MENU / CLOSE controls are
 // worded (no icons). Content is wired from config: brand = siteData.name, links = navData.
 import HeaderNavLinks from "@components/Sections/Global/HeaderNavLinks.astro";
+import LangSwitch from "@components/Sections/Global/LangSwitch.astro";
 import { Nav } from "@components/ui/nav";
 import { Sheet } from "@components/ui/sheet";
 import { ThemeToggle } from "@components/ui/theme-toggle";
@@ -25,7 +26,10 @@ const pathname = Astro.url.pathname;
   {
     /* h-16 on the header (border-box) so the bar is 64px total incl. the 4px border — the Figma frame. */
   }
-  <div class="site-container relative flex h-full items-center justify-end">
+  <div class="site-container relative flex h-full items-center justify-between">
+    <div class="relative z-10">
+      <LangSwitch />
+    </div>
     <!-- Desktop nav is centered in the bar. The theme toggle and the mobile MENU stay on the right. -->
     <div class="absolute inset-0 hidden items-center justify-center lg:flex">
       <Nav aria-label="Principal" class="gap-6 xl:gap-8">
@@ -47,7 +51,7 @@ const pathname = Astro.url.pathname;
         aria-controls="site-menu"
         class="pixel-btn h-9 shrink-0 px-3 text-[10px] leading-none uppercase lg:hidden"
       >
-        Menú
+        <span class="lang-es">Menú</span><span class="lang-en">Menu</span>
       </button>
     </div>
   </div>
@@ -56,13 +60,13 @@ const pathname = Astro.url.pathname;
        is the Sheet's own `_dialog` hook (Escape + backdrop dismiss are automatic). -->
   <Sheet id="site-menu" side="right" aria-labelledby="site-menu-title" class="w-72 gap-6">
     <div class="flex items-center justify-between">
-      <span id="site-menu-title" class="font-display text-foreground text-sm uppercase">Menú</span>
+      <span id="site-menu-title" class="font-display text-foreground text-sm uppercase"><span class="lang-es">Menú</span><span class="lang-en">Menu</span></span>
       <button
         type="button"
         data-dialog-close
         class="pixel-btn h-9 shrink-0 px-3 text-[10px] leading-none uppercase"
       >
-        Cerrar
+        <span class="lang-es">Cerrar</span><span class="lang-en">Close</span>
       </button>
     </div>
 

@@ -11,7 +11,7 @@ import { type NavItemProps } from "./types/configDataTypes";
  * `/` redirects there too. `/contact/` is the one SSR page.
  */
 export const navItems = [
-  { label: "sakaramos", href: "/about/" },
-  { label: "Post", href: "/blog/" },
-  { label: "Contacto", href: "/contact/" },
+  { label: "sakaramos", labelEn: "sakaramos", href: "/about/" },
+  { label: "Post", labelEn: "Post", href: "/blog/" },
+  { label: "Contacto", labelEn: "Contact", href: "/contact/" },
 ] as const satisfies readonly NavItemProps[];

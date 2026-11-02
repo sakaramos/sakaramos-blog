@@ -43,8 +43,15 @@ const dateLabel = data.pubDate
   .toUpperCase();
 const dateISO = data.pubDate.toISOString();
 
-const { prev, next } = getAdjacentPosts(posts, entry.id);
-const related = getRelatedPosts(posts, entry.id, 2);
+const translationKey = data.translationKey ?? entry.id;
+const pair = posts.filter((post) => (post.data.translationKey ?? post.id) === translationKey);
+const hrefEs = pair.find((post) => (post.data.lang ?? "es") === "es");
+const hrefEn = pair.find((post) => post.data.lang === "en");
+const withoutTranslation = posts.filter(
+  (post) => post.id === entry.id || (post.data.translationKey ?? post.id) !== translationKey,
+);
+const { prev, next } = getAdjacentPosts(withoutTranslation, entry.id);
+const related = getRelatedPosts(withoutTranslation, entry.id, 2);
 
 // SEO: BlogPosting + a BreadcrumbList matching the visible breadcrumb (never emit one
 // without the other). Absolute URLs resolve against `site`.
@@ -78,7 +85,11 @@ const breadcrumbSchema = getBreadcrumbSchema([
   schema={[articleSchema, breadcrumbSchema]}
   article={{ published: data.pubDate, modified: data.updatedDate, author: author.name }}
 >
-  <div class="site-container py-8 md:py-12">
+  <div
+    class="site-container py-8 md:py-12"
+    data-href-es={hrefEs ? `/blog/${hrefEs.id}/` : undefined}
+    data-href-en={hrefEn ? `/blog/${hrefEn.id}/` : undefined}
+  >
     <div class="mx-auto flex max-w-[800px] flex-col gap-12">
       <BlogArticle
         post={data}

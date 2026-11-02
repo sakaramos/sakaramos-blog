@@ -31,6 +31,11 @@ const blogCollection = defineCollection({
       category: z.string(),
       tags: z.array(z.string()).default([]), // footer hashtags (#pixel, #gamedev)
       draft: z.boolean().optional(),
+      // "es" or "en". Omitted posts are treated as written in the default language and still show
+      // when the other language has no translation.
+      lang: z.enum(["es", "en"]).optional(),
+      // Shared id for the Spanish and English files of the same article.
+      translationKey: z.string().optional(),
     }),
 });
 

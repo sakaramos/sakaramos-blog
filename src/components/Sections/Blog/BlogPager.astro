@@ -12,12 +12,12 @@ const { page, pages, hrefFor } = Astro.props;
     <nav aria-label="Páginas" class="flex flex-wrap gap-4">
       {page > 1 && (
         <a href={hrefFor(page - 1)} class="pixel-btn pixel-btn--green h-12 px-5 text-sm uppercase">
-          Anterior
+          <span class="lang-es">Anterior</span><span class="lang-en">Previous</span>
         </a>
       )}
       {page < pages && (
         <a href={hrefFor(page + 1)} class="pixel-btn pixel-btn--green h-12 px-5 text-sm uppercase">
-          Siguiente
+          <span class="lang-es">Siguiente</span><span class="lang-en">Next</span>
         </a>
       )}
     </nav>

@@ -47,11 +47,13 @@ The article body goes here, in Markdown.
 | `heroImage` | yes | Cover. Path to a file next to the post |
 | `heroImageAlt` | yes | Image alt text |
 | `category` | yes | Colored badge on the card, and a link on the `/blog/` bar. A new value adds its own link. Examples: Tech, Guide, Dev Log |
-
-`/blog/` lists posts newest first (`pubDate`), 9 per page. The bar has Todo, Categoría (`/blog/categoria/`), and Buscar (`/blog/buscar/`). A category page is `/blog/categoria/<category>/`. Later pages are `/blog/pagina/2/` and `/blog/categoria/<category>/pagina/2/`. Search filters by title or tag in the browser, also 9 per page.
 | `tags` | no | Topic list. Use `[]` when there are none |
 | `updatedDate` | no | Update date |
 | `draft` | no | `true` hides the post from the listing |
+| `lang` | no | `es` or `en`. The language this file is written in. Omit it and the post counts as the default text |
+| `translationKey` | no | Same value on the Spanish file and the English file of one article |
+
+`/blog/` lists posts newest first (`pubDate`), 9 per page. The bar has Todo, Categoría (`/blog/categoria/`), and Buscar (`/blog/buscar/`). A category page is `/blog/categoria/<category>/`. Later pages are `/blog/pagina/2/` and `/blog/categoria/<category>/pagina/2/`. Search filters by title or tag in the browser, also 9 per page.
 
 The `admin` author is `src/data/authors/admin.md` (`name`, `authorLink`, optional `avatar`).
 
@@ -75,16 +77,26 @@ both emptied, the build succeeds and `/blog/` renders `CardGrid`'s empty state; 
 
 ## Spanish and English
 
-The site is one language today. `siteLang` and `siteLocale` in `src/config/siteSettings.json.ts` are `en` and `en-US`. There is no language switch and no per-locale route. A post at `src/data/blog/<slug>/index.mdx` is published at `/blog/<slug>/` no matter which language the body is written in.
+The pages are not copied per language. The header **ES / EN** switch only swaps the interface text. A post stays one file, written in whatever language you used, until you add a second file for the other language.
 
-To keep a Spanish version and an English version of the same post, nest one folder per language. The folder name becomes part of the entry id:
+One post, no `lang` and no `translationKey`: it is shown in both ES and EN, exactly as written.
 
+The same article in both languages is two files. Give them the same `translationKey`. Set `lang` on each one. The switch then shows the file that matches the active language.
+
+```mdx
+---
+title: "Mi nota"
+lang: "es"
+translationKey: "mi-nota"
+---
 ```
-src/data/blog/
-├── es/mi-nota/index.mdx        # id "es/mi-nota"  → /blog/es/mi-nota/
-└── en/my-note/index.mdx        # id "en/my-note"  → /blog/en/my-note/
+
+```mdx
+---
+title: "My note"
+lang: "en"
+translationKey: "mi-nota"
+---
 ```
 
-Use `es` and `en`. Each file still has its own frontmatter (`title`, `description`, `pubDate`, `heroImage`, and the rest). Write the Spanish body in the `es` file and the English body in the `en` file. They are two entries, not one entry with two bodies.
-
-That folder layout does not filter the listing by itself. `/blog/` would show both languages together until a language filter is added back. The old i18n helpers (a locales list, per-locale data, and the `i18n` block in `astro.config.mjs`) were removed. Their shape is in git history. Restoring them is what makes the site serve `/es/...` and `/en/...` and show only the posts for the active language.
+If the active language has no file for that `translationKey`, the other file is shown as written. You do not need both languages for every post.

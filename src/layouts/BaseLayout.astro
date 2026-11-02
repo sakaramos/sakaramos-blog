@@ -15,16 +15,17 @@ import BaseHead from "@layouts/BaseHead.astro";
 // title/description/image/noindex + the SEO pass-throughs (schema/article) — forwarded to BaseHead
 interface Props extends SeoProps {
   title: string;
+  titleEn?: string;
   description: string;
   image?: ImageMetadata;
   noindex?: boolean;
 }
 
-const { title, description, image, noindex = false, schema, article } = Astro.props as Props;
+const { title, titleEn, description, image, noindex = false, schema, article } = Astro.props as Props;
 ---
 
 <!doctype html>
-<html lang={siteLang}>
+<html lang={siteLang} data-lang="es" data-title-es={title} data-title-en={titleEn ?? title}>
   <head>
     <BaseHead
       title={title}

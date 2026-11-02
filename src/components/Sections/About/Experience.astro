@@ -12,8 +12,11 @@ const jobs = [
     name: "R5",
     tone: "success",
     focus: "Fintech · Área de seguros",
+    focusEn: "Fintech · Insurance",
     summary:
       "Durante mis primeros años trabajé en el área de seguros de R5, donde participé en el desarrollo de automatizaciones, scripts e integraciones. También brindé soporte técnico interno y externo a diferentes áreas y entidades, entre ellas Bancolombia y AXA Seguros, apoyando la operación de venta de SOAT desde la plataforma.",
+    summaryEn:
+      "In my first years I worked in R5's insurance area, building automations, scripts, and integrations. I also supported internal and external teams, including Bancolombia and AXA Seguros, on SOAT sales through the platform.",
     points: [
       "Soporte técnico interno y externo: atención de requerimientos, análisis de errores y resolución de incidentes relacionados con la operación.",
       "Venta de SOAT: soporte al funcionamiento de los procesos de venta desde el sistema de R5.",
@@ -24,13 +27,17 @@ const jobs = [
     ],
     href: "https://www.grupor5.com/comprar-soat-en-linea",
     link: "Conocer R5",
+    linkEn: "Visit R5",
   },
   {
     name: "Novadynamics",
     tone: "secondary",
     focus: "Desarrollo de productos de software",
+    focusEn: "Software product development",
     summary:
       "Actualmente trabajo en Novadynamics, participando en el desarrollo de una solución tecnológica para contact centers virtuales. La plataforma integra chat, telefonía, herramientas de gestión e inteligencia artificial para centralizar la operación en un mismo entorno.",
+    summaryEn:
+      "I work at Novadynamics on a platform for virtual contact centers. It brings chat, phone, management tools, and artificial intelligence into one place.",
     points: [
       "Análisis de requerimientos: identificación de necesidades y definición de soluciones técnicas.",
       "Bases de datos: diseño, estructuración y gestión de modelos de datos.",
@@ -42,12 +49,13 @@ const jobs = [
     ],
     href: "https://nova-dynamics.net/",
     link: "Visitar Novadynamics",
+    linkEn: "Visit Novadynamics",
   },
 ] as const;
 ---
 
 <section aria-labelledby="experience-heading" class="flex flex-col gap-6">
-  <SectionHeading id="experience-heading" title="Experiencia" />
+  <SectionHeading id="experience-heading" title="Experiencia" titleEn="Experience" />
   <ul class="grid gap-4 lg:grid-cols-2">
     {
       jobs.map((job) => (
@@ -55,9 +63,13 @@ const jobs = [
           <PixelPanel class="flex h-full flex-col gap-4 p-5 sm:p-6">
             <header class="flex flex-col gap-1">
               <h3 class:list={["h3", toneText[job.tone]]}>{job.name}</h3>
-              <p class="text-info text-sm font-bold">{job.focus}</p>
+              <p class="text-info text-sm font-bold">
+                <span class="lang-es">{job.focus}</span><span class="lang-en">{job.focusEn}</span>
+              </p>
             </header>
-            <p class="text-muted-foreground text-base leading-relaxed">{job.summary}</p>
+            <p class="text-muted-foreground text-base leading-relaxed">
+              <span class="lang-es">{job.summary}</span><span class="lang-en">{job.summaryEn}</span>
+            </p>
             <ul class="text-muted-foreground flex list-disc flex-col gap-2 pl-5 text-base leading-relaxed">
               {job.points.map((point) => (
                 <li>{point}</li>
@@ -69,7 +81,7 @@ const jobs = [
               rel="noopener noreferrer"
               class="text-info hover:text-success mt-auto text-sm underline underline-offset-2"
             >
-              {job.link}
+              <span class="lang-es">{job.link}</span><span class="lang-en">{job.linkEn}</span>
             </a>
           </PixelPanel>
         </li>

@@ -17,17 +17,21 @@ import { Reveal } from "@components/ui/reveal";
 const faqs = [
   {
     q: "¿Cómo te escribo?",
+    qEn: "How do I reach you?",
     a: "Por el formulario de esta página, o directo a andfera201@gmail.com. También por GitHub, LinkedIn o WhatsApp.",
+    aEn: "Use the form on this page, or email andfera201@gmail.com. GitHub, LinkedIn, and WhatsApp work too.",
   },
   {
     q: "¿Cuándo respondes?",
+    qEn: "When do you reply?",
     a: "Leo los mensajes y respondo cuando puedo. Si es urgente, WhatsApp es el camino más rápido.",
+    aEn: "I read messages and reply when I can. If it's urgent, WhatsApp is the fastest way.",
   },
 ] as const;
 ---
 
 <Reveal as="section" aria-labelledby="faq-heading" class="flex flex-col gap-6">
-  <SectionHeading id="faq-heading" title="Preguntas" />
+  <SectionHeading id="faq-heading" title="Preguntas" titleEn="Questions" />
 
   <PixelPanel elevated class="px-6 py-2 sm:px-8">
     <Accordion class="border-t-0">
@@ -38,7 +42,7 @@ const faqs = [
             class="border-base-300 border-t-0 border-b-2 border-dashed [&[open]_[data-faq-v]]:opacity-0"
           >
             <summary class="text-secondary-700 dark:text-secondary font-display focus-visible:ring-outline flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-xs leading-relaxed outline-none focus-visible:ring-3 [&::-webkit-details-marker]:hidden">
-              <span>{faq.q}</span>
+              <span><span class="lang-es">{faq.q}</span><span class="lang-en">{faq.qEn}</span></span>
               <span class="relative ml-2 size-4 shrink-0" aria-hidden="true">
                 <span class="bg-muted-foreground absolute top-1/2 left-0 h-1 w-full -translate-y-1/2" />
                 <span
@@ -48,7 +52,7 @@ const faqs = [
               </span>
             </summary>
             <AccordionContent class="text-muted-foreground pt-0 pb-4 text-base leading-relaxed">
-              {faq.a}
+              <span class="lang-es">{faq.a}</span><span class="lang-en">{faq.aEn}</span>
             </AccordionContent>
           </AccordionItem>
         ))

@@ -30,6 +30,10 @@ export interface ContentCardProps {
   tags?: readonly string[];
   /** Link verb — "Read" for posts, "View" for projects. */
   cta?: string;
+  /** Post language. Omitted cards are not filtered. */
+  lang?: "es" | "en";
+  /** Pairs a Spanish file with its English file. */
+  tkey?: string;
 }
 const {
   href,
@@ -70,7 +74,7 @@ const {
     <span
       class="text-info group-hover:text-success mt-auto inline-flex items-center gap-2 pt-1 text-sm font-bold uppercase"
     >
-      {cta}
+      <span class="lang-es">{cta}</span><span class="lang-en">{cta === "Leer" ? "Read" : cta}</span>
       <PixelIcon
         name="arrow-right"
         class="size-4 transition-transform group-hover:translate-x-1 motion-reduce:transition-none"

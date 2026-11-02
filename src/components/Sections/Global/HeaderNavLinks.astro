@@ -33,7 +33,8 @@ const { pathname, fullWidth = false } = Astro.props as Props;
         >
           <path d="M10.41 6.64 0 13.02V0Z" />
         </svg>
-        {item.label}
+        <span class="lang-es">{item.label}</span>
+        {item.labelEn && <span class="lang-en">{item.labelEn}</span>}
       </NavLink>
     </NavItem>
   ))

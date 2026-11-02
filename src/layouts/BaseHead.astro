@@ -130,12 +130,122 @@ const jsonLd = serializeJsonLd([...siteNodes, ...(schema ?? [])]);
   }
 
   initTheme();
-  // follow live OS / browser color-scheme changes — but only while the user hasn't pinned a choice
-  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-    if (!savedTheme()) initTheme();
-  });
-  // re-run after view-transition navigations
-  document.addEventListener("astro:after-swap", initTheme);
+
+  function savedLang() {
+    try {
+      return localStorage.getItem("lang") === "en" ? "en" : "es";
+    } catch {
+      return "es";
+    }
+  }
+
+  function applyLang() {
+    const lang = savedLang();
+    document.documentElement.dataset.lang = lang;
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-es-placeholder]").forEach((el) => {
+      const es = el.getAttribute("data-es-placeholder") ?? "";
+      const en = el.getAttribute("data-en-placeholder") ?? es;
+      el.setAttribute("placeholder", lang === "en" ? en : es);
+    });
+    const cards = [...document.querySelectorAll("[data-post-lang]")];
+    const groups = new Map();
+    for (const el of cards) {
+      const key = el.getAttribute("data-tkey") || el.getAttribute("data-post-lang");
+      const group = groups.get(key) ?? [];
+      group.push(el);
+      groups.set(key, group);
+    }
+    const show = new Set();
+    for (const group of groups.values()) {
+      const match = group.filter((el) => el.getAttribute("data-post-lang") === lang);
+      for (const el of (match.length ? match : group)) show.add(el);
+    }
+    for (const el of cards) {
+      if (el.closest("[data-blog-search]")) continue;
+      el.classList.toggle("hidden", !show.has(el));
+    }
+    document.dispatchEvent(new CustomEvent("sakaramos:lang"));
+    document.querySelectorAll("[data-set-lang]").forEach((button) => {
+      const on = button.getAttribute("data-set-lang") === lang;
+      button.setAttribute("aria-pressed", on ? "true" : "false");
+      button.classList.toggle("pixel-btn--green", on);
+    });
+    const title = document.documentElement.getAttribute(lang === "en" ? "data-title-en" : "data-title-es");
+    if (title) document.title = title;
+    followArticleLang();
+  }
+
+  function followArticleLang() {
+    if (window.__articleHop) return;
+    const article = document.querySelector("[data-href-es], [data-href-en]");
+    if (!article) return;
+    const lang = savedLang();
+    const href = article.getAttribute(lang === "en" ? "data-href-en" : "data-href-es");
+    if (!href) return;
+    const path = new URL(href, location.origin).pathname.replace(/\/$/, "");
+    if (location.pathname.replace(/\/$/, "") === path) return;
+    window.__articleHop = true;
+    const hop = new CustomEvent("sakaramos:article-lang", { detail: href, cancelable: true });
+    if (document.dispatchEvent(hop)) location.assign(href);
+  }
+
+  if (!window.__sakaramosLangBound) {
+    window.__sakaramosLangBound = true;
+    window.__articleHop = false;
+    applyLang();
+    document.addEventListener("DOMContentLoaded", applyLang);
+    document.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-set-lang]");
+      if (!button) return;
+      window.__articleHop = false;
+      try {
+        localStorage.setItem("lang", button.getAttribute("data-set-lang") === "en" ? "en" : "es");
+      } catch {
+        /* storage blocked */
+      }
+      applyLang();
+    });
+    // The next page is rendered in Spanish. Write the saved language onto it before it swaps in,
+    // so moving between pages does not require a reload.
+    document.addEventListener("astro:before-swap", (event) => {
+      const html = event.newDocument && event.newDocument.documentElement;
+      if (!html) return;
+      const lang = savedLang();
+      html.dataset.lang = lang;
+      html.lang = lang;
+      html.classList.toggle("dark", document.documentElement.classList.contains("dark"));
+    });
+    // follow live OS / browser color-scheme changes — but only while the user hasn't pinned a choice
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+      if (!savedTheme()) initTheme();
+    });
+    // A new page ships data-lang="es". Put the saved language back after the swap, without a reload.
+    document.addEventListener("astro:after-swap", () => {
+      initTheme();
+      applyLang();
+    });
+    document.addEventListener("astro:page-load", () => {
+      window.__articleHop = false;
+      applyLang();
+    });
+  } else {
+    applyLang();
+  }
+</script>
+
+<script>
+  import { navigate } from "astro:transitions/client";
+
+  const flag = "__sakaramosArticleLang";
+  if (!Object.hasOwn(window, flag)) {
+    Object.defineProperty(window, flag, { value: true });
+    document.addEventListener("sakaramos:article-lang", (event) => {
+      if (!(event instanceof CustomEvent) || typeof event.detail !== "string") return;
+      event.preventDefault();
+      void navigate(event.detail);
+    });
+  }
 </script>
 
 {siteSettings.useViewTransitions && <ClientRouter fallback="none" />}

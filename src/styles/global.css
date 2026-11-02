@@ -259,6 +259,12 @@
 }
 
 @layer utilities {
+  /* Language pairs. The head script sets `data-lang` before paint. A lone Spanish
+     node stays visible in English so untranslated text is not blank. */
+  html[data-lang="en"] .lang-es { display: none; }
+  html[data-lang="es"] .lang-en { display: none; }
+  html[data-lang="en"] .lang-es:only-child { display: revert; }
+
   /* visible focus ring for keyboard users */
   .primary-focus {
     @apply focus-visible:outline-outline focus:outline-hidden focus-visible:rounded-xs focus-visible:outline-2;

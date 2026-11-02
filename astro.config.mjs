@@ -3,6 +3,9 @@ import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
+import { existsSync, readFileSync, unlinkSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig, envField } from "astro/config";
 
 // The production domain, which `site` below feeds to canonical, OG, JSON-LD, the sitemap,
@@ -90,6 +93,41 @@ export default defineConfig({
   vite: {
     plugins: [
       tailwindcss(),
+      {
+        // An empty `src/data/blog` makes Astro's loader return before it watches the folder, so the
+        // first new post never reaches Todo / Categoría / Buscar until the dev server is restarted.
+        // If a markdown change is still missing from the content store, restart once so it is indexed.
+        name: "watch-blog-posts",
+        configureServer(server) {
+          const root = fileURLToPath(new URL("./", import.meta.url));
+          const blogDir = path.join(root, "src/data/blog");
+          const storePath = path.join(root, ".astro/data-store.json");
+          server.watcher.add(blogDir);
+          let timer;
+          const bump = (file, kind) => {
+            const rel = path.relative(blogDir, file);
+            if (rel.startsWith("..") || !/\.(md|mdx)$/.test(rel)) return;
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+              const stored = existsSync(storePath) ? readFileSync(storePath, "utf8") : "";
+              const marker = `src/data/blog/${rel.split(path.sep).join("/")}`;
+              const present = stored.includes(marker);
+              if (present === (kind !== "unlink")) return;
+              // A restart keeps the old content snapshot. Drop it so the new post, or a deleted
+              // one, is read from disk instead of staying on the page until a manual reload.
+              try {
+                unlinkSync(storePath);
+              } catch {
+                /* store already gone */
+              }
+              server.restart();
+            }, 1200);
+          };
+          server.watcher.on("add", (file) => bump(file, "add"));
+          server.watcher.on("change", (file) => bump(file, "change"));
+          server.watcher.on("unlink", (file) => bump(file, "unlink"));
+        },
+      },
       {
         // Astro's dev server rejects `/about` with its own trailing-slash page, and it inserts
         // that check at the front of the stack. This runs after it and redirects first, so the

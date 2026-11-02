@@ -4,6 +4,7 @@ import { PixelPanel } from "@components/ui/pixel-panel";
 interface Item {
   id: string;
   label: string;
+  labelEn?: string;
   href: string;
   current: boolean;
 }
@@ -33,7 +34,8 @@ const tones = [
             item.current && "border-current",
           ]}
         >
-          {item.label}
+          <span class="lang-es">{item.label}</span>
+          {item.labelEn && <span class="lang-en">{item.labelEn}</span>}
         </a>
       </Fragment>
     ))

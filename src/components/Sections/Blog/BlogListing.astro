@@ -41,17 +41,18 @@ const toneClass = [
   "text-secondary-700 dark:text-secondary",
 ];
 const bar = [
-  { id: "todos", label: "Todo", href: listingHref("todos", 1), current: mode === "todos" },
-  { id: "categoria", label: "Categoría", href: "/blog/categoria/", current: mode === "categoria" },
-  { id: "buscar", label: "Buscar", href: "/blog/buscar/", current: mode === "buscar" },
+  { id: "todos", label: "Todo", labelEn: "All", href: listingHref("todos", 1), current: mode === "todos" },
+  { id: "categoria", label: "Categoría", labelEn: "Category", href: "/blog/categoria/", current: mode === "categoria" },
+  { id: "buscar", label: "Buscar", labelEn: "Search", href: "/blog/buscar/", current: mode === "buscar" },
 ];
 ---
 
 <BaseLayout
   title={`Artículos — ${siteData.name}`}
+  titleEn={`Articles — ${siteData.name}`}
   description="Temas y aprendizajes sobre software, tecnología, inteligencia artificial, metodologías y tecnología cloud."
 >
-  <div class="site-container flex flex-col gap-10 py-8 md:gap-12 md:py-12">
+  <div class="site-container flex flex-col gap-10 py-8 md:gap-12 md:py-12" data-blog-live>
     <BlogHero>
       {
         (
@@ -79,6 +80,8 @@ const bar = [
                 id="blog-search"
                 type="search"
                 placeholder="Busca por título o etiqueta"
+                data-es-placeholder="Busca por título o etiqueta"
+                data-en-placeholder="Search by title or tag"
                 aria-label="Buscar"
                 class="border-border bg-card text-foreground w-full border-4 px-3 py-3 text-base"
               />
@@ -92,12 +95,16 @@ const bar = [
         <CardGrid headingId="blog-empty" items={[]} />
       ) : mode === "buscar" ? (
         <div data-blog-search class="flex flex-col gap-6">
-          <h2 class="h2 text-info">Buscar</h2>
-          <p id="blog-search-empty" class="text-muted-foreground hidden text-base">Nada coincide.</p>
+          <h2 class="h2 text-info"><span class="lang-es">Buscar</span><span class="lang-en">Search</span></h2>
+          <p id="blog-search-empty" class="text-muted-foreground hidden text-base">
+            <span class="lang-es">Nada coincide.</span><span class="lang-en">Nothing matches.</span>
+          </p>
           <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {all.map((item) => (
               <li
                 data-search-item
+                data-post-lang={item.card.lang}
+                data-tkey={item.card.tkey}
                 data-title={item.title}
                 data-tags={[...item.tags, item.category].join("|")}
               >
@@ -107,10 +114,10 @@ const bar = [
           </ul>
           <nav aria-label="Páginas" class="flex flex-wrap gap-4">
             <button type="button" data-search-prev class="pixel-btn pixel-btn--green hidden h-12 px-5 text-sm uppercase">
-              Anterior
+              <span class="lang-es">Anterior</span><span class="lang-en">Previous</span>
             </button>
             <button type="button" data-search-next class="pixel-btn pixel-btn--green hidden h-12 px-5 text-sm uppercase">
-              Siguiente
+              <span class="lang-es">Siguiente</span><span class="lang-en">Next</span>
             </button>
           </nav>
         </div>
@@ -151,8 +158,25 @@ const bar = [
     const next = root.querySelector<HTMLButtonElement>("[data-search-next]");
     let page = 0;
 
+    const forLang = (lang: string) => {
+      const groups = new Map<string, typeof cards>();
+      for (const card of cards) {
+        const key = card.el.dataset.tkey || card.el.dataset.postLang || card.title;
+        const group = groups.get(key) ?? [];
+        group.push(card);
+        groups.set(key, group);
+      }
+      const chosen = [];
+      for (const group of groups.values()) {
+        const match = group.filter((card) => card.el.dataset.postLang === lang);
+        chosen.push(...(match.length ? match : group));
+      }
+      return chosen;
+    };
+
     const render = () => {
-      const ranked = searchRank(cards, input.value);
+      const lang = document.documentElement.dataset.lang === "en" ? "en" : "es";
+      const ranked = searchRank(forLang(lang), input.value);
       const pages = Math.max(1, Math.ceil(ranked.length / size));
       page = Math.min(page, pages - 1);
       const visible = new Set(ranked.slice(page * size, page * size + size).map((item) => item.el));
@@ -174,9 +198,34 @@ const bar = [
       page += 1;
       render();
     });
+    document.addEventListener("sakaramos:lang", () => {
+      page = 0;
+      render();
+    });
     render();
   }
 
   setupSearch();
   document.addEventListener("astro:page-load", setupSearch);
+
+  // While editing, a saved post should show up on whichever of Todo, Categoría, or Buscar is open.
+  if (import.meta.env.DEV) {
+    const flag = "__blogWatch";
+    const host = window as unknown as Record<string, boolean>;
+    if (!host[flag]) {
+      host[flag] = true;
+      let seen = "";
+      window.setInterval(async () => {
+        if (!document.querySelector("[data-blog-live]")) return;
+        let text = seen;
+        try {
+          text = await fetch("/api/blog-posts.json", { cache: "no-store" }).then((res) => res.text());
+        } catch {
+          return;
+        }
+        if (seen && text !== seen) location.reload();
+        seen = text;
+      }, 1500);
+    }
+  }
 </script>

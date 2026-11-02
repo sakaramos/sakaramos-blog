@@ -30,8 +30,8 @@ const socialLinks: readonly SocialLink[] = [
 ];
 
 const legalLinks = [
-  { label: "Privacidad", href: "/privacy/" },
-  { label: "Términos", href: "/terms/" },
+  { label: "Privacidad", labelEn: "Privacy", href: "/privacy/" },
+  { label: "Términos", labelEn: "Terms", href: "/terms/" },
 ] as const;
 ---
 
@@ -70,7 +70,7 @@ const legalLinks = [
                 href={link.href}
                 class="primary-focus text-muted-foreground hover:text-success font-display text-[8px] tracking-[2px] uppercase transition-colors"
               >
-                {link.label}
+                <span class="lang-es">{link.label}</span><span class="lang-en">{link.labelEn}</span>
               </a>
             </li>
           ))

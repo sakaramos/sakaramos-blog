@@ -8,12 +8,15 @@
 // lavender grounds, so it flips for free. `id` lets the section wire `aria-labelledby` to it.
 interface Props {
   title: string;
+  titleEn?: string;
   id?: string;
 }
-const { title, id } = Astro.props as Props;
+const { title, titleEn, id } = Astro.props as Props;
 ---
 
 <div class="flex w-full items-center gap-4">
-  <h2 {id} class="h2 text-info">{title}</h2>
+  <h2 {id} class="h2 text-info">
+    <span class="lang-es">{title}</span>{titleEn && <span class="lang-en">{titleEn}</span>}
+  </h2>
   <span class="border-base-300 h-1 flex-1 border-b-4 border-dashed" aria-hidden="true"></span>
 </div>

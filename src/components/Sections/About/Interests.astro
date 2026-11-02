@@ -11,36 +11,48 @@ const toneText = {
 const interests = [
   {
     title: "Desarrollo de software",
+    titleEn: "Software development",
     tone: "success",
     text: "Construir soluciones modulares, mantenibles y bien estructuradas, prestando atención a la calidad del código, la organización de los componentes y las decisiones técnicas que facilitan la evolución de los sistemas.",
+    textEn: "Building modular, maintainable, and well-structured solutions, with attention to code quality, how components are organized, and the technical decisions that let systems evolve.",
   },
   {
     title: "Inteligencia artificial",
+    titleEn: "Artificial intelligence",
     tone: "info",
     text: "Explorar cómo la IA puede ampliar las capacidades del software, ayudar a resolver problemas, mejorar los procesos de desarrollo y abrir nuevas posibilidades para la creación de productos.",
+    textEn: "Exploring how AI can extend what software can do, help solve problems, improve how we build, and open new ways to create products.",
   },
   {
     title: "Desarrollo de productos",
+    titleEn: "Product development",
     tone: "secondary",
     text: "Participar en la evolución de ideas, desde la identificación de un problema y la comprensión de sus necesidades hasta el diseño y la construcción de soluciones útiles que aporten valor.",
+    textEn: "Taking ideas from a problem and its needs through to the design and building of useful solutions.",
   },
   {
     title: "Aprendizaje continuo",
+    titleEn: "Continuous learning",
     tone: "success",
     text: "Profundizar en nuevas tecnologías, investigar cómo funcionan las cosas, experimentar con diferentes herramientas y convertir el conocimiento adquirido en experiencia práctica.",
+    textEn: "Going deeper on new technology, finding out how things work, trying tools, and turning that into practice.",
   },
 ] as const;
 ---
 
 <section aria-labelledby="interests-heading" class="flex flex-col gap-6">
-  <SectionHeading id="interests-heading" title="Qué me interesa" />
+  <SectionHeading id="interests-heading" title="Qué me interesa" titleEn="What I'm into" />
   <ul class="grid gap-4 sm:grid-cols-2">
     {
       interests.map((item) => (
         <li>
           <PixelPanel class="flex h-full flex-col gap-3 p-5">
-            <h3 class:list={["h3", toneText[item.tone]]}>{item.title}</h3>
-            <p class="text-muted-foreground text-base leading-relaxed">{item.text}</p>
+            <h3 class:list={["h3", toneText[item.tone]]}>
+              <span class="lang-es">{item.title}</span><span class="lang-en">{item.titleEn}</span>
+            </h3>
+            <p class="text-muted-foreground text-base leading-relaxed">
+              <span class="lang-es">{item.text}</span><span class="lang-en">{item.textEn}</span>
+            </p>
           </PixelPanel>
         </li>
       ))

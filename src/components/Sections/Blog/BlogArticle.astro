@@ -77,7 +77,9 @@ const {
           )
         }
         <p class="text-muted-foreground text-xs font-bold tracking-wide uppercase">
-          <time datetime={dateISO}>{dateLabel}</time> · {readMinutes} min de lectura · Por {author.name}
+          <time datetime={dateISO}>{dateLabel}</time> · {readMinutes}
+          <span class="lang-es"> min de lectura · Por </span><span class="lang-en"> min read · By </span>
+          {author.name}
         </p>
       </div>
     </header>
@@ -124,7 +126,7 @@ const {
               class="primary-focus text-info hover:text-success inline-flex items-center gap-1.5 text-xs font-bold tracking-wide uppercase transition-colors"
             >
               <PixelIcon name="arrow-left" class="size-3.5" />
-              Anterior
+              <span class="lang-es">Anterior</span><span class="lang-en">Previous</span>
             </a>
           )
         }
@@ -135,7 +137,7 @@ const {
               rel="next"
               class="primary-focus text-info hover:text-success inline-flex items-center gap-1.5 text-xs font-bold tracking-wide uppercase transition-colors"
             >
-              Siguiente
+              <span class="lang-es">Siguiente</span><span class="lang-en">Next</span>
               <PixelIcon name="arrow-right" class="size-3.5" />
             </a>
           )

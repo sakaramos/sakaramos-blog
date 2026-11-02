@@ -32,7 +32,7 @@ const { headingId, title, items } = Astro.props as Props;
     items.length > 0 ? (
       <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item) => (
-          <li>
+          <li data-post-lang={item.lang} data-tkey={item.tkey}>
             <ContentCard {...item} />
           </li>
         ))}
@@ -40,7 +40,7 @@ const { headingId, title, items } = Astro.props as Props;
     ) : (
       <PixelPanel class="p-6 text-center">
         <p class="text-muted-foreground font-display text-xs uppercase">
-          Aún no hay artículos.
+          <span class="lang-es">Aún no hay artículos.</span><span class="lang-en">No articles yet.</span>
         </p>
       </PixelPanel>
     )
