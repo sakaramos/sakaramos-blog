@@ -63,32 +63,6 @@ export interface LegalPageProps {
 export type LegalData = Record<"terms" | "privacy", LegalPageProps>;
 
 // --------------------------------------------------------
-// portfolio data (buyer-customized copy + values). See src/config/portfolioData.json.ts.
-// Only the facts a buyer is expected to make their own — identity, biography, experience/stat values,
-// the home intro, and the contact prompt. Presentational labels (SYS_SPECS, "Role:", stat colours)
-// stay in their components. First-person singular voice throughout (one developer's portfolio).
-export interface PortfolioDataProps {
-  profile: {
-    tagline: string; // About-hero badge, e.g. "Dev 01"
-    heading: string; // About-hero H1
-    role: string; // DevProfile ROLE value
-    years: string; // DevProfile YRS value
-    bio: readonly string[]; // About-hero biography, one <p> per entry
-    shortBio: string; // home About-section bio
-    meta: { location: string; role: string; favorite: string }; // home About-section meta values
-    skills: readonly { label: string; pct: number }[]; // DevProfile HP-style skill bars
-  };
-  // Retro scoreboard values (home Stats strip + About-hero strip). Display text only; each strip's
-  // per-stat colours live in its component and pair by order.
-  stats: {
-    home: readonly string[];
-    profile: readonly string[];
-  };
-  home: { tagline: string; heading: string; intro: string }; // home hero
-  contact: { prompt: string }; // home Contact-section prompt
-}
-
-// --------------------------------------------------------
 // site settings
 export interface SiteSettingsProps {
   useViewTransitions?: boolean;

@@ -1,58 +1,89 @@
 ---
-// src/components/Sections/About/Hero.astro — Figma "Hero" (node 5:280).
-//
-// The profile hero: the shared Global/HeroPanel (DEV 01 tag + H1) with a two-paragraph bio, the two
-// CTAs, and a retro "scoreboard" stats strip (CLASS / LVL / XP / STARS) passed through its slot. It
-// omits HeroPanel's `intro` because its body is the multi-paragraph bio, not a single line. Second
-// section, still near the fold → NO <Reveal>. Tokens only.
-//
-// COPY: the tag, H1, bio, and stats strip come from portfolioData (profile.* / stats.profile) —
-// buyer-editable; the strip's per-stat colours stay here (presentational).
-//
-// BUTTONS: the mock has no CTA here; the CTAs use `.pixel-btn` — the site's dependency-free port of
-// the CodePen "Pure CSS 8bit Button Style" (Maximuz/BdqXXN). VIEW PROJECTS links to /projects/;
-// GET IN TOUCH to /contact/.
+// About hero. Name, origin, portrait, and contact links.
 import HeroPanel from "@components/Sections/Global/HeroPanel.astro";
-import Scoreboard from "@components/Sections/Global/Scoreboard.astro";
-import portfolioData from "@config/portfolioData.json";
+import { PixelIcon, type PixelIconName } from "@components/svg/pixel-icons";
+import { PixelPanel } from "@components/ui/pixel-panel";
+import portrait from "@images/andres-ramos.jpg";
 
-const { tagline, heading, bio } = portfolioData.profile;
+const highlight = "text-info font-bold";
 
-// The strip sits on the theme-aware `bg-muted` (a light-blue scoreboard in light mode, the dark
-// #272939 panel in dark) — the same call the home Stats strip makes. It reuses the shared <Scoreboard>
-// shell, stacking until `lg` (four longer stats need the room). Each colour is a light/dark PAIR so it
-// reads on BOTH grounds: deepened green/pink for the light strip, the neon shades under `dark:` for the
-// dark one; the blue rides the flipping `text-info` (deep blue on light, airy primary-300 on dark).
-// Stat TEXT is portfolioData.stats.profile; the colours below pair by order (keep them aligned).
-const colors = [
-  "text-success-700 dark:text-success",
-  "text-info",
-  "text-secondary-700 dark:text-secondary",
-  "text-success-700 dark:text-success",
+const links: readonly {
+  label: string;
+  href: string;
+  color: string;
+  icon: PixelIconName;
+}[] = [
+  {
+    label: "GitHub",
+    href: "https://github.com/sakaramos",
+    color: "text-success-700 hover:text-info dark:text-success dark:hover:text-info",
+    icon: "github",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/sakaramos/",
+    color: "text-info hover:text-success",
+    icon: "linkedin",
+  },
+  {
+    label: "Email",
+    href: "mailto:andfera201@gmail.com",
+    color: "text-secondary-700 hover:text-info dark:text-secondary dark:hover:text-info",
+    icon: "email",
+  },
+  {
+    label: "WhatsApp",
+    href: "https://wa.me/573172116762",
+    color: "text-success-700 hover:text-info dark:text-success dark:hover:text-info",
+    icon: "whatsapp",
+  },
 ];
-const strip = portfolioData.stats.profile.map((text, i) => ({
-  text,
-  color: colors[i] ?? "text-info",
-}));
 ---
 
-<HeroPanel headingId="about-hero-heading" tagline={tagline} heading={heading}>
-  <div class="text-muted-foreground flex flex-col gap-4 text-base">
-    {bio.map((para) => <p>{para}</p>)}
+<HeroPanel headingId="about-hero-heading" tagline="Sobre mí" heading="Soy Andres Ramos">
+  <div class="flex w-full flex-col items-center gap-6 md:flex-row md:items-start md:justify-between">
+    <div class="text-muted-foreground flex flex-col gap-4 text-base leading-relaxed">
+      <p>
+        Soy <span class={highlight}>desarrollador de software</span> con más de 4 años de experiencia,
+        sobre todo en backend. Soy de Pitalito, Huila.
+      </p>
+      <p>
+        Ahora estoy usando la <span class={highlight}>inteligencia artificial</span> para cambiar la forma
+        en que se construye software. Me importa crear productos, liderar el trabajo técnico, escribir
+        código limpio y llevarlo a la nube.
+      </p>
+      <p>
+        Fuera de la tecnología, levanto pesas, escucho música, leo y sigo lo que me despierta curiosidad.
+      </p>
+    </div>
+    <img
+      src={portrait.src}
+      width={portrait.width}
+      height={portrait.height}
+      alt="Andres Ramos"
+      class="border-border shadow-pixel aspect-square w-40 shrink-0 border-4 object-cover object-top sm:w-44 md:w-48"
+    />
   </div>
 
-  <div class="flex flex-col gap-4 pt-1 sm:flex-row">
-    <a href="/projects/" class="pixel-btn pixel-btn--blue px-5 py-4 text-sm uppercase sm:text-base">
-      View Projects
-    </a>
-    <a href="/contact/" class="pixel-btn px-5 py-4 text-sm uppercase sm:text-base">
-      Get in Touch
-    </a>
-  </div>
-
-  <Scoreboard
-    stats={strip}
-    stackAt="lg"
-    class="bg-muted mt-2 w-full gap-2 p-4 text-xs whitespace-nowrap sm:text-sm lg:gap-4"
-  />
+  <PixelPanel
+    class="bg-muted mt-2 flex w-full flex-col items-center gap-3 p-4 text-xs sm:flex-row sm:justify-between sm:gap-4 sm:text-sm"
+  >
+    {
+      links.map((link, i) => (
+        <Fragment>
+          {i > 0 && <span class="bg-base-400 hidden h-3.5 w-1 shrink-0 sm:block" aria-hidden="true" />}
+          <a
+            href={link.href}
+            class:list={["font-display flex items-center gap-2 uppercase", link.color]}
+            {...(link.href.startsWith("http")
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : {})}
+          >
+            <PixelIcon name={link.icon} size="lg" />
+            {link.label}
+          </a>
+        </Fragment>
+      ))
+    }
+  </PixelPanel>
 </HeroPanel>

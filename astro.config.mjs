@@ -70,6 +70,11 @@ export default defineConfig({
   // on that shape.
   trailingSlash: "always",
 
+  // There is no home page. `/` goes to About.
+  redirects: {
+    "/": "/about/",
+  },
+
   // mdx() renders .mdx content.
   // sitemap filter: never list noindex pages — the dev-only /examples catalog and 404s
   // both set `noindex` in the markup, so a sitemap entry for them would contradict it.
@@ -84,7 +89,40 @@ export default defineConfig({
   ],
 
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      {
+        // Astro's dev server rejects `/about` with its own trailing-slash page, and it inserts
+        // that check at the front of the stack. This runs after it and redirects first, so the
+        // slashed URL loads — or the custom 404, if that page is missing.
+        name: "redirect-trailing-slash",
+        enforce: "post",
+        configureServer(server) {
+          return () => {
+            server.middlewares.stack.unshift({
+              route: "",
+              handle(req, res, next) {
+                const [path, query] = (req.url ?? "").split("?");
+                const last = path.slice(path.lastIndexOf("/") + 1);
+                if (
+                  path.startsWith("/@") ||
+                  path.startsWith("/__") ||
+                  path === "/" ||
+                  path.endsWith("/") ||
+                  last.includes(".")
+                ) {
+                  next();
+                  return;
+                }
+                res.statusCode = 308;
+                res.setHeader("Location", `${path}/${query ? `?${query}` : ""}`);
+                res.end();
+              },
+            });
+          };
+        },
+      },
+    ],
     // Stop inlining short scripts so they don't break under <ClientRouter /> view transitions.
     build: {
       assetsInlineLimit: 0,

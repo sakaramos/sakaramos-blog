@@ -39,7 +39,7 @@ const author = {
 
 const readMinutes = readingTime(entry.body ?? "");
 const dateLabel = data.pubDate
-  .toLocaleDateString(siteLocale, { month: "short", day: "numeric", year: "numeric" })
+  .toLocaleDateString("es-CO", { month: "short", day: "numeric", year: "numeric" })
   .toUpperCase();
 const dateISO = data.pubDate.toISOString();
 
@@ -65,8 +65,8 @@ const articleSchema = getArticleSchema({
   publisherId: organizationId(canonical),
 });
 const breadcrumbSchema = getBreadcrumbSchema([
-  { name: "Home", url: new URL("/", Astro.site).href },
-  { name: "Blog", url: new URL("/blog/", Astro.site).href },
+  { name: "Inicio", url: new URL("/", Astro.site).href },
+  { name: "Post", url: new URL("/blog/", Astro.site).href },
   { name: data.title, url: canonical },
 ]);
 ---

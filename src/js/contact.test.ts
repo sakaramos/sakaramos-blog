@@ -35,7 +35,7 @@ assert.equal(contactSchema.safeParse({ ...valid, name: "Alex\r\nBcc: x@y.z" }).s
 assert.equal(contactSchema.safeParse({ ...valid, subject: "Hi\nBcc: x@y.z" }).success, false);
 
 // spam gate — honeypot: any non-empty _gotcha rejects
-assert.equal(spamReason({ _gotcha: "i-am-a-bot", _ts: 0 }, 10_000), "Message rejected.");
+assert.equal(spamReason({ _gotcha: "i-am-a-bot", _ts: 0 }, 10_000), "Mensaje rechazado.");
 
 // spam gate — time: a submit faster than MIN_FILL_MS rejects; slower passes
 const rendered = 10_000;
@@ -45,10 +45,10 @@ assert.equal(spamReason({ _ts: rendered }, rendered + MIN_FILL_MS), null);
 // email body escapes HTML so a field can't inject markup, and the reply-to is the sender's address
 const mail = buildEmail(
   { name: "<script>", email: "a@b.co", subject: "Hi & bye", message: "1 < 2" },
-  "8-BitQuest",
+  "sakaramos",
 );
 assert.equal(mail.replyTo, "a@b.co");
-assert.ok(mail.subject.startsWith("[8-BitQuest] Hi & bye — <script>")); // subject is a header, not HTML
+assert.ok(mail.subject.startsWith("[sakaramos] Hi & bye — <script>")); // subject is a header, not HTML
 assert.ok(mail.html.includes("&lt;script&gt;"));
 assert.ok(mail.html.includes("1 &lt; 2"));
 assert.ok(!mail.html.includes("<script>"));

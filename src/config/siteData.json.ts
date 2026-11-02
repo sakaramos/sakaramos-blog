@@ -2,14 +2,14 @@ import { type SiteDataProps } from "./types/configDataTypes";
 
 // Site metadata. Edit with your project's details.
 const siteData = {
-  name: "8-BitQuest",
-  title: "8-BitQuest — retro pixel-art dev portfolio",
+  name: "sakaramos",
+  title: "sakaramos — Andres Ramos",
   description:
-    "A retro 8-bit, pixel-art developer portfolio built on Astro 7 and a CSS-first Tailwind v4 token system.",
+    "Andres Ramos, desarrollador de software de Pitalito, Huila. Backend, productos e inteligencia artificial.",
 
   author: {
-    name: "Your Name",
-    email: "you@example.com",
+    name: "Andres Ramos",
+    email: "andfera201@gmail.com",
     // Ships EMPTY on purpose: BaseHead only emits `twitter:creator` when this is set, so an unfilled
     // template omits the tag rather than attributing every page to a handle that doesn't exist.
     twitter: "",
@@ -17,7 +17,7 @@ const siteData = {
 
   defaultImage: {
     src: "/og.jpg",
-    alt: "8-BitQuest",
+    alt: "sakaramos",
   },
 
   // Social/profile URLs, surfaced as the Organization `sameAs` in JSON-LD (see @js/schema) AND used

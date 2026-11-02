@@ -19,14 +19,14 @@ import SectionHeading from "./SectionHeading.astro";
 interface Props {
   /** id shared by the heading and the section's `aria-labelledby`. */
   headingId: string;
-  title: string;
+  title?: string;
   items: readonly ContentCardProps[];
 }
 const { headingId, title, items } = Astro.props as Props;
 ---
 
 <Reveal as="section" aria-labelledby={headingId} class="flex flex-col gap-6">
-  <SectionHeading id={headingId} title={title} />
+  {title && <SectionHeading id={headingId} title={title} />}
 
   {
     items.length > 0 ? (
@@ -40,7 +40,7 @@ const { headingId, title, items } = Astro.props as Props;
     ) : (
       <PixelPanel class="p-6 text-center">
         <p class="text-muted-foreground font-display text-xs uppercase">
-          No entries yet — new quests loading.
+          Aún no hay artículos.
         </p>
       </PixelPanel>
     )

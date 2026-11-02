@@ -13,31 +13,25 @@
 // (`hover:text-success`) on hover — the same active/hover colour as the nav.
 //
 // Wiring (decisions the single mock didn't specify):
-//   - copyright year is build-time; "GAME OVER" is kept retro flavour, not the site name.
+//   - copyright year is build-time and names the site.
 //   - Privacy/Terms are the real legal routes.
 //   - the two external social destinations resolve through `@config/socialData` (label + glyph + the
 //     sameAs derivation, defined once); RSS and email are site-local, so they stay literal here.
 import { PixelIcon, type PixelIconName } from "@components/svg/pixel-icons";
-import siteData from "@config/siteData.json";
-import { socialLink } from "@config/socialData.json";
-
 const year = new Date().getFullYear();
-const copyright = `© ${year} — Game Over`;
+const copyright = `© ${year} sakaramos`;
 
-// Social row (Figma 5:96, glyphs swapped to the pixel set). `name` is validated against the
-// pixel-icon registry. Which platforms appear is this section's call; how one resolves is not.
 type SocialLink = { name: PixelIconName; label: string; href: string; external?: boolean };
 const socialLinks: readonly SocialLink[] = [
-  { ...socialLink("linkedin"), external: true },
-  { name: "rss", label: "RSS feed", href: "/rss.xml" },
-  { ...socialLink("youtube"), external: true },
-  { name: "email", label: "Email", href: `mailto:${siteData.author.email}` },
+  { name: "github", label: "GitHub", href: "https://github.com/sakaramos", external: true },
+  { name: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/sakaramos/", external: true },
+  { name: "email", label: "Email", href: "mailto:andfera201@gmail.com" },
+  { name: "whatsapp", label: "WhatsApp", href: "https://wa.me/573172116762", external: true },
 ];
 
-// Legal row (Figma 5:103). Trailing slashes match astro.config `trailingSlash: "always"`.
 const legalLinks = [
-  { label: "Privacy", href: "/privacy/" },
-  { label: "Terms", href: "/terms/" },
+  { label: "Privacidad", href: "/privacy/" },
+  { label: "Términos", href: "/terms/" },
 ] as const;
 ---
 

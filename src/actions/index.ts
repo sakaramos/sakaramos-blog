@@ -9,7 +9,6 @@
  * boundary); here we translate its result — logging the provider detail server-side (it can name the
  * account, so it never reaches the visitor) and throwing a generic ActionError on any failure.
  */
-import siteData from "@config/siteData.json";
 import { buildEmail, contactSchema, spamReason } from "@js/contact";
 import { sendContactEmail } from "@js/resend";
 import { ActionError, defineAction } from "astro:actions";
@@ -51,7 +50,7 @@ export const server = {
         );
         throw new ActionError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Your message could not be sent. Please email me directly.",
+          message: "No se pudo enviar el mensaje. Escríbeme directamente por correo.",
         });
       }
       // Defaults to Resend's shared sender, which only delivers to the account owner's address.
@@ -59,14 +58,15 @@ export const server = {
       const from = CONTACT_FROM_EMAIL ?? "onboarding@resend.dev";
 
       // 4. Build (escaped) + send via the Resend boundary, then translate the result.
-      const result = await sendContactEmail(buildEmail(input, siteData.name), { apiKey, to, from });
+      // Subject prefix stays the template brand; the visible site name is siteData.name.
+      const result = await sendContactEmail(buildEmail(input, "sakaramos"), { apiKey, to, from });
       if (!result.ok) {
         // Log the provider's real answer (it can name the account); never show it to the visitor.
         const context = result.reason === "provider" ? `provider ${result.status}` : result.reason;
         console.error(`[contact] Resend send failed (${context}):`, result.detail);
         throw new ActionError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Your message could not be sent. Please email me directly.",
+          message: "No se pudo enviar el mensaje. Escríbeme directamente por correo.",
         });
       }
 

@@ -20,21 +20,21 @@ export const contactSchema = z.object({
   name: z
     .string()
     .trim()
-    .min(1, "Enter your name, player.")
-    .max(100, "That name is too long.")
-    .refine(noLineBreaks, "Line breaks are not allowed here."),
-  email: z.string().trim().pipe(z.email("Please enter a valid email address.").max(254)),
+    .min(1, "Escribe tu nombre.")
+    .max(100, "Ese nombre es demasiado largo.")
+    .refine(noLineBreaks, "No se permiten saltos de línea."),
+  email: z.string().trim().pipe(z.email("Escribe un correo válido.").max(254)),
   subject: z
     .string()
     .trim()
-    .min(1, "Give your transmission a subject.")
-    .max(150, "That subject is too long.")
-    .refine(noLineBreaks, "Line breaks are not allowed here."),
+    .min(1, "Escribe un asunto.")
+    .max(150, "Ese asunto es demasiado largo.")
+    .refine(noLineBreaks, "No se permiten saltos de línea."),
   message: z
     .string()
     .trim()
-    .min(10, "Tell me a little more than that.")
-    .max(5000, "That transmission is too long."),
+    .min(10, "Cuéntame un poco más.")
+    .max(5000, "Ese mensaje es demasiado largo."),
   /** Honeypot — permissive on purpose, so a filled value becomes a readable form-level rejection. */
   _gotcha: z.string().optional(),
   /** Render timestamp for the time gate; coerced from the hidden field's string. */
@@ -95,8 +95,8 @@ export function spamReason(
   { _gotcha, _ts }: Pick<ContactInput, "_gotcha" | "_ts">,
   now: number = Date.now(),
 ): string | null {
-  if (_gotcha) return "Message rejected.";
-  if (now - _ts < MIN_FILL_MS) return "That was quick — please take another look and resend.";
+  if (_gotcha) return "Mensaje rechazado.";
+  if (now - _ts < MIN_FILL_MS) return "Eso fue muy rápido. Revísalo y envíalo de nuevo.";
   return null;
 }
 
@@ -132,10 +132,10 @@ export function buildEmail(
     subject: `[${siteName}] ${subject} — ${name}`,
     replyTo: email,
     html: [
-      `<h2>New transmission from ${escapeHtml(name)}</h2>`,
-      `<p><strong>Email:</strong> ${escapeHtml(email)}</p>`,
-      `<p><strong>Subject:</strong> ${escapeHtml(subject)}</p>`,
-      `<p><strong>Message:</strong></p>`,
+      `<h2>Nuevo mensaje de ${escapeHtml(name)}</h2>`,
+      `<p><strong>Correo:</strong> ${escapeHtml(email)}</p>`,
+      `<p><strong>Asunto:</strong> ${escapeHtml(subject)}</p>`,
+      `<p><strong>Mensaje:</strong></p>`,
       `<p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>`,
     ].join("\n"),
   };

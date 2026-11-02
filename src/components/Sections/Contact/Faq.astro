@@ -16,22 +16,18 @@ import { Reveal } from "@components/ui/reveal";
 
 const faqs = [
   {
-    q: "Q: Can I submit my own guest post / devlog?",
-    a: "YES! I am always looking for fellow developers and historians to write about retro tech. Send me a pitch with your outline, and I'll check your specs.",
+    q: "¿Cómo te escribo?",
+    a: "Por el formulario de esta página, o directo a andfera201@gmail.com. También por GitHub, LinkedIn o WhatsApp.",
   },
   {
-    q: "Q: Where can I find the code for your projects?",
-    a: "All my active pipelines, game engines, and retro devops pipelines are hosted on my GitHub repository. Pull requests are welcome, hero.",
-  },
-  {
-    q: "Q: How often are new quests published?",
-    a: "New devlogs and tutorials are released every alternate Tuesday. Subscribe to my Discord transmissions to get live ping alerts.",
+    q: "¿Cuándo respondes?",
+    a: "Leo los mensajes y respondo cuando puedo. Si es urgente, WhatsApp es el camino más rápido.",
   },
 ] as const;
 ---
 
 <Reveal as="section" aria-labelledby="faq-heading" class="flex flex-col gap-6">
-  <SectionHeading id="faq-heading" title="Frequently Asked System Questions" />
+  <SectionHeading id="faq-heading" title="Preguntas" />
 
   <PixelPanel elevated class="px-6 py-2 sm:px-8">
     <Accordion class="border-t-0">
@@ -51,7 +47,7 @@ const faqs = [
                 />
               </span>
             </summary>
-            <AccordionContent class="text-muted-foreground pt-0 pb-4 text-sm">
+            <AccordionContent class="text-muted-foreground pt-0 pb-4 text-base leading-relaxed">
               {faq.a}
             </AccordionContent>
           </AccordionItem>

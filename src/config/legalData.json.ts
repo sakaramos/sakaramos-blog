@@ -1,130 +1,106 @@
 import { type LegalData } from "./types/configDataTypes";
 
-// Legal content. Placeholder template text — replace it with your own terms and
-// privacy policy, reviewed by a qualified legal professional, before you launch.
+// Legal content for sakaramos. Plain-language pages for a personal portfolio, not a reviewed legal opinion.
 const legalData = {
   terms: {
-    title: "Terms & Conditions",
-    description: "The terms and conditions governing your use of this website.",
-    lastUpdated: "2026-07-01",
+    title: "Términos",
+    description: "Condiciones de uso del sitio sakaramos.",
+    lastUpdated: "2026-11-01",
     intro:
-      "These terms and conditions (“Terms”) govern your access to and use of this website. Please read them carefully. This is placeholder template content — replace it with your own terms, reviewed by a qualified legal professional, before you launch.",
+      "Estos términos explican cómo puedes usar sakaramos, el sitio personal de Andres Ramos. Al entrar aceptas estas condiciones. Si no estás de acuerdo, no uses el sitio.",
     sections: [
       {
-        heading: "Acceptance of terms",
+        heading: "Uso del sitio",
         body: [
-          "By accessing or using this website, you agree to be bound by these Terms and our Privacy Policy. If you do not agree, please do not use the site.",
+          "sakaramos es un portafolio personal. Puedes leer el contenido para conocer el trabajo de Andres Ramos y escribir por el formulario de contacto. El uso debe ser lícito: no interfieras con el sitio, no intentes acceder a partes que no están publicadas y no uses el formulario para enviar spam o contenido abusivo.",
         ],
       },
       {
-        heading: "Use of the service",
+        heading: "Contenido",
         body: [
-          "You may use this website for lawful purposes only. You agree not to misuse the service, interfere with its normal operation, or attempt to access it by any method other than the interface we provide.",
+          "Los textos, la foto y el diseño del sitio son de Andres Ramos, salvo cuando se indique otra fuente. Puedes enlazar las páginas. Copiar o redistribuir el contenido para otro fin necesita permiso.",
         ],
       },
       {
-        heading: "Intellectual property",
+        heading: "Sin garantías",
         body: [
-          "Unless otherwise stated, all content on this website — including text, graphics, logos, and code — is owned by us or our licensors and is protected by applicable intellectual-property laws. You may not reproduce or redistribute it without permission.",
+          "El sitio se ofrece tal como está. No se garantiza que esté siempre disponible ni libre de errores. Los proyectos y textos describen experiencia personal y no son una oferta comercial.",
         ],
       },
       {
-        heading: "User content",
+        heading: "Ley aplicable",
         body: [
-          "If the site lets you submit content, you retain ownership of what you submit but grant us a non-exclusive license to host and display it as needed to operate the service. You are responsible for the content you provide.",
+          "Estos términos se rigen por las leyes de la República de Colombia.",
         ],
       },
       {
-        heading: "Disclaimers",
+        heading: "Cambios",
         body: [
-          "This website is provided “as is” and “as available” without warranties of any kind, whether express or implied. We do not guarantee that the site will be uninterrupted, secure, or error-free.",
+          "Estos términos se pueden actualizar. La fecha de la última revisión aparece al inicio de la página. Seguir usando el sitio después de un cambio implica que aceptas la versión nueva.",
         ],
       },
       {
-        heading: "Limitation of liability",
+        heading: "Contacto",
         body: [
-          "To the fullest extent permitted by law, we will not be liable for any indirect, incidental, or consequential damages arising from your use of, or inability to use, this website.",
-        ],
-      },
-      {
-        heading: "Changes to these terms",
-        body: [
-          "We may update these Terms from time to time. Material changes are reflected by the “last updated” date above, and your continued use of the site constitutes acceptance of the revised Terms.",
-        ],
-      },
-      {
-        heading: "Governing law",
-        body: [
-          "These Terms are governed by the laws of the jurisdiction in which we operate, without regard to conflict-of-law principles. Update this section to name your governing jurisdiction.",
-        ],
-      },
-      {
-        heading: "Contact",
-        body: [
-          "If you have questions about these Terms, contact us at the address published on our website.",
+          "Si tienes dudas sobre estos términos, escribe a andfera201@gmail.com.",
         ],
       },
     ],
   },
   privacy: {
-    title: "Privacy Policy",
-    description: "How we collect, use, and protect your personal information.",
-    lastUpdated: "2026-07-01",
+    title: "Privacidad",
+    description: "Qué datos recoge sakaramos y para qué se usan.",
+    lastUpdated: "2026-11-01",
     intro:
-      "This privacy policy explains how we collect, use, and safeguard your personal information when you visit this website. This is placeholder template content — replace it with a policy that reflects your actual data practices and applicable law.",
+      "Esta página explica qué datos personales trata sakaramos, el sitio de Andres Ramos, y con qué fin. No hay cuentas de usuario ni venta de datos.",
     sections: [
       {
-        heading: "Information we collect",
+        heading: "Datos que recogemos",
         body: [
-          "We may collect information you provide directly (such as your name and email when you contact us) and information collected automatically (such as your IP address, browser type, and pages visited).",
+          "Si escribes por el formulario de contacto, recibimos el nombre, el correo y el mensaje que envías. Eso es lo único que pides entregar.",
+          "El sitio se sirve en Cloudflare. Al visitarlo, el proveedor de alojamiento puede registrar datos técnicos de la conexión, como la dirección IP, el tipo de navegador y la página pedida, para entregar el sitio y protegerlo.",
         ],
       },
       {
-        heading: "How we use your information",
+        heading: "Para qué se usan",
         body: [
-          "We use the information we collect to operate and improve the website, respond to your requests, and comply with legal obligations. We do not sell your personal information.",
+          "El nombre, el correo y el mensaje se usan solo para leer tu consulta y responderte. No se usan para publicidad ni se venden.",
         ],
       },
       {
-        heading: "Cookies and tracking",
+        heading: "Preferencia de tema",
         body: [
-          "This website may use cookies and similar technologies to remember your preferences and understand how the site is used. You can control cookies through your browser settings.",
+          "Si cambias entre tema claro y oscuro, esa elección se guarda en tu navegador (almacenamiento local). No sale del dispositivo y no es una cookie de seguimiento.",
         ],
       },
       {
-        heading: "Sharing your information",
+        heading: "Con quién se comparten",
         body: [
-          "We share personal information only with service providers who help us operate the site, or when required by law. Any such providers are bound to handle your data securely.",
+          "El mensaje de contacto se envía por un servicio de correo (Resend) para que llegue a Andres Ramos. Cloudflare entrega el sitio. Esos proveedores tratan los datos solo para prestar ese servicio. También se pueden entregar datos si una autoridad lo exige por ley.",
         ],
       },
       {
-        heading: "Data retention",
+        heading: "Cuánto tiempo se conservan",
         body: [
-          "We retain personal information only for as long as necessary to fulfil the purposes described in this policy, unless a longer retention period is required by law.",
+          "Los mensajes de contacto se conservan el tiempo necesario para responder y llevar el hilo de la conversación, y se borran cuando ya no hacen falta.",
         ],
       },
       {
-        heading: "Your rights",
+        heading: "Tus derechos",
         body: [
-          "Depending on where you live, you may have the right to access, correct, or delete your personal information, or to object to certain processing. Contact us to exercise these rights.",
+          "Puedes pedir acceso, corrección o eliminación de los datos que hayas enviado por el formulario. Escribe a andfera201@gmail.com e indica de qué mensaje se trata.",
         ],
       },
       {
-        heading: "Security",
+        heading: "Cambios",
         body: [
-          "We take reasonable technical and organizational measures to protect your information. However, no method of transmission or storage is completely secure, and we cannot guarantee absolute security.",
+          "Esta política se puede actualizar. La fecha de la última revisión aparece al inicio de la página.",
         ],
       },
       {
-        heading: "Changes to this policy",
+        heading: "Contacto",
         body: [
-          "We may update this policy from time to time. The “last updated” date above reflects the most recent revision.",
-        ],
-      },
-      {
-        heading: "Contact",
-        body: [
-          "If you have questions about this policy or your personal information, contact us at the address published on our website.",
+          "Para preguntas sobre privacidad escribe a andfera201@gmail.com.",
         ],
       },
     ],

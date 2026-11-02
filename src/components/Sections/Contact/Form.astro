@@ -41,8 +41,8 @@ const renderedAt = Date.now();
 const FIELDS = [
   {
     name: "name",
-    label: "Your Name",
-    placeholder: "e.g. PLAYER ONE",
+    label: "Nombre",
+    placeholder: "Tu nombre",
     as: "input",
     type: "text",
     autocomplete: "name",
@@ -50,10 +50,10 @@ const FIELDS = [
   },
   {
     name: "email",
-    label: "Email Address",
+    label: "Correo",
     // example.com, never an invented domain: the Astro theme-catalogue review strictly enforces it,
     // since a made-up domain can resolve to a real site and draw unwanted contact.
-    placeholder: "e.g. PLAYER1@EXAMPLE.COM",
+    placeholder: "tu@correo.com",
     as: "input",
     type: "email",
     autocomplete: "email",
@@ -61,8 +61,8 @@ const FIELDS = [
   },
   {
     name: "subject",
-    label: "Subject",
-    placeholder: "e.g. TUTORIAL INQUIRY",
+    label: "Asunto",
+    placeholder: "De qué se trata",
     as: "input",
     type: "text",
     autocomplete: "off",
@@ -70,8 +70,8 @@ const FIELDS = [
   },
   {
     name: "message",
-    label: "Message Transmission",
-    placeholder: "TYPE YOUR TRANSMISSION HERE...",
+    label: "Mensaje",
+    placeholder: "Escribe tu mensaje...",
     as: "textarea",
     autocomplete: "off",
     maxlength: 5000,
@@ -95,17 +95,17 @@ const fieldClass = [
       class="primary-focus flex flex-col items-start gap-3 p-8"
     >
       <Badge pixel variant="success">
-        Transmission Sent
+        Enviado
       </Badge>
-      <h2 class="h3 text-foreground">Message sent.</h2>
+      <h2 class="h3 text-foreground">Mensaje enviado.</h2>
       <p class="text-muted-foreground text-sm">
-        Thanks — your transmission reached the array. I'll beam a reply back to your inbox.
+        Gracias. Recibí tu mensaje y te respondo a ese correo.
       </p>
     </PixelPanel>
   ) : (
     <PixelPanel elevated class="flex flex-col gap-6 p-6 sm:p-8">
       <h2 class="text-secondary-700 dark:text-secondary font-display text-base uppercase sm:text-lg">
-        Send Message
+        Enviar mensaje
       </h2>
 
       {formError && (
@@ -157,7 +157,7 @@ const fieldClass = [
         {/* Honeypot: off-screen (not display:none) so bots that skip the invisible fill it, and
             aria-hidden + tabindex=-1 keep it away from humans and assistive tech. */}
         <div class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
-          <label for="_gotcha">Leave this field empty</label>
+          <label for="_gotcha">Deja este campo vacío</label>
           <input id="_gotcha" type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
         </div>
 
@@ -168,7 +168,7 @@ const fieldClass = [
           type="submit"
           class="pixel-btn pixel-btn--green mt-2 self-start px-6 py-3 text-sm uppercase sm:text-base"
         >
-          Send Message
+          Enviar
         </button>
       </form>
     </PixelPanel>

@@ -85,17 +85,10 @@
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
 
-  /* font families (loaded in fonts.css). The design is a two-face system:
-       --font-display → Press Start 2P, the pixel heading face (`font-display` utility; drives .h1–.h3)
-       --font-sans    → Space Mono, the body face (the site default, set on <html>)
-       --font-mono    → Space Mono too (body and "code" are the same mono here) */
+  /* Press Start 2P for headings and the scoreboard; Space Mono for body and code. */
   --font-display: "Press Start 2P", "Space Mono", ui-monospace, "Courier New", monospace;
-  --font-sans:
-    "Space Mono", ui-monospace, "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono",
-    "Courier New", monospace;
-  --font-mono:
-    "Space Mono", ui-monospace, "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono",
-    "Courier New", monospace;
+  --font-sans: "Space Mono", ui-monospace, "Courier New", monospace;
+  --font-mono: "Space Mono", ui-monospace, "Courier New", monospace;
 
   /* PIXEL SHADOW — the signature hard offset shadow (zero blur), the retro "sticker" depth on
      every panel/card/button/badge. The COLOR is theme-aware via `--pixel-shadow` (global.css):

@@ -1,13 +1,7 @@
 /**
- * * Self-hosted retro type system (8-BitQuest).
- *
- *   - "Press Start 2P" → the pixel display face (headings, nav, buttons). One weight (400).
- *   - "Space Mono"     → the body/mono face (paragraphs, badges, tags, meta). 400 + 700.
- *
- * Wired to the `--font-display` / `--font-sans` / `--font-mono` tokens in tailwind-theme.css.
- * The two above-the-fold faces (Press Start 2P 400, Space Mono 400) are also preloaded in
- * BaseHead for faster first paint. Need another weight? `pnpm add @fontsource/...` and add a
- * @font-face block here.
+ * * Press Start 2P for headings, nav, and the scoreboard (`--font-display`).
+ * * Space Mono for body and code (`--font-sans`, `--font-mono`).
+ * Both 400 weights are preloaded in BaseHead.
  */
 @font-face {
   font-family: "Press Start 2P";

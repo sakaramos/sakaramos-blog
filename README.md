@@ -10,7 +10,7 @@ in-house UI, motion, icon and SEO stack. Headings are Press Start 2P on a black-
 panel" surface; every colour flows through a semantic token layer, so the committed light and dark
 themes flip for free.
 
-It ships as a **working site, not an empty skeleton** — a Home, About, Blog, Projects and a
+It ships as a **working site, not an empty skeleton** — a Home, About, Blog and a
 server-rendered Contact page, six sample posts and six sample projects, all reproduced from the
 source Figma. The one non-static route is `/contact/`, which posts to a Resend-backed Astro action.
 
@@ -47,12 +47,9 @@ content for your own, then work through [Before you deploy](#before-you-deploy).
 | `/about/`              | `pages/about.astro`                  | `Sections/About/*`                     |
 | `/blog/`               | `pages/blog/index.astro`             | `Sections/Blog/*` (listing)            |
 | `/blog/<slug>/`        | `pages/blog/[slug].astro`            | `Sections/Blog/BlogArticle` (per post) |
-| `/projects/`           | `pages/projects/index.astro`         | `Sections/Project/*` (listing)         |
-| `/projects/<slug>/`    | `pages/projects/[slug].astro`        | `Sections/Project/ProjectArticle`      |
 | `/contact/`            | `pages/contact.astro` (**SSR**)      | `Sections/Contact/*` + a Resend action |
 | `/privacy/`, `/terms/` | `pages/privacy.astro`, `terms.astro` | `config/legalData.json.ts`             |
 | `/404`                 | `pages/404.astro`                    | `Sections/NotFound/*`                  |
-| `/examples/ui`         | `pages/examples/[catalog].astro`     | `Sections/UiCatalog/*` (dev-only)      |
 
 Every route prerenders to static HTML **except `/contact/`**, which sets `export const prerender =
 false` so it can take the form POST and re-render with the result. `/examples/ui` is a `noindex`
@@ -70,12 +67,10 @@ entry named. Entries live one folder deep and the folder name is the slug.
 | Collection | Location             | Ships with     | Holds                                                                                                                                           |
 | :--------- | :------------------- | :------------- | :---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `blog`     | `src/data/blog/`     | **6 posts**    | `title`, `description`, `authors[]` (≥1), `pubDate`, `heroImage(+alt)`, `category`, `tags`, optional `updatedDate`, `draft`                     |
-| `projects` | `src/data/projects/` | **6 projects** | `title`, `description`, `tagline`, `status`, `moduleId`, `order`, `thumbnail(+alt)`, `tech[]`, `specs[]`, `features[]`, `archCaption`, `challenge`, `solution`, optional `cardTitle`, `draft` |
 | `authors`  | `src/data/authors/`  | `admin`        | `name`, `authorLink`, optional `avatar` — referenced by posts as the byline                                                                     |
 
 The samples are retro-flavoured placeholders; replace them with your own. A blog post's body is
-free-form MDX (rendered through `.blog-prose`); a project's overview is MDX while its spec/feature
-data is structured frontmatter.
+free-form MDX (rendered through `.blog-prose`).
 
 ## Configuration
 

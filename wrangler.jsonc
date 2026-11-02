@@ -8,7 +8,7 @@
 //   pnpm wrangler secret put CONTACT_FROM_EMAIL   (optional — defaults to onboarding@resend.dev)
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "8-bitquest",
+  "name": "sakaramos",
   "main": "@astrojs/cloudflare/entrypoints/server",
   "compatibility_date": "2026-07-25",
   "compatibility_flags": ["nodejs_compat"],

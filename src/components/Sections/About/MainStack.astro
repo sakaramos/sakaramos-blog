@@ -1,0 +1,35 @@
+---
+import SectionHeading from "@components/Sections/Global/SectionHeading.astro";
+import { PixelIcon, type PixelIconName } from "@components/svg/pixel-icons";
+import { PixelPanel } from "@components/ui/pixel-panel";
+
+type Tone = "success" | "secondary" | "info";
+const skills: readonly { name: string; icon: PixelIconName; tone: Tone }[] = [
+  { name: "Python", icon: "flash", tone: "success" },
+  { name: "TypeScript", icon: "type", tone: "info" },
+  { name: "AWS", icon: "globe", tone: "secondary" },
+  { name: "Cursor", icon: "code", tone: "success" },
+  { name: "PostgreSQL", icon: "server", tone: "info" },
+];
+
+const toneText: Record<Tone, string> = {
+  success: "text-success-700 dark:text-success",
+  secondary: "text-secondary-700 dark:text-secondary",
+  info: "text-info",
+};
+---
+
+<section aria-labelledby="main-stack-heading" class="flex flex-col gap-6">
+  <SectionHeading id="main-stack-heading" title="Tecnologías" />
+
+  <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+    {
+      skills.map((skill) => (
+        <PixelPanel as="li" class="flex flex-col items-center gap-3 p-4">
+          <PixelIcon name={skill.icon} class:list={["size-8", toneText[skill.tone]]} />
+          <span class="font-display text-foreground text-center text-sm uppercase">{skill.name}</span>
+        </PixelPanel>
+      ))
+    }
+  </ul>
+</section>

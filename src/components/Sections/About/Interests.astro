@@ -1,0 +1,49 @@
+---
+import SectionHeading from "@components/Sections/Global/SectionHeading.astro";
+import { PixelPanel } from "@components/ui/pixel-panel";
+
+const toneText = {
+  success: "text-success-700 dark:text-success",
+  info: "text-info",
+  secondary: "text-secondary-700 dark:text-secondary",
+} as const;
+
+const interests = [
+  {
+    title: "Desarrollo de software",
+    tone: "success",
+    text: "Construir soluciones modulares, mantenibles y bien estructuradas, prestando atención a la calidad del código, la organización de los componentes y las decisiones técnicas que facilitan la evolución de los sistemas.",
+  },
+  {
+    title: "Inteligencia artificial",
+    tone: "info",
+    text: "Explorar cómo la IA puede ampliar las capacidades del software, ayudar a resolver problemas, mejorar los procesos de desarrollo y abrir nuevas posibilidades para la creación de productos.",
+  },
+  {
+    title: "Desarrollo de productos",
+    tone: "secondary",
+    text: "Participar en la evolución de ideas, desde la identificación de un problema y la comprensión de sus necesidades hasta el diseño y la construcción de soluciones útiles que aporten valor.",
+  },
+  {
+    title: "Aprendizaje continuo",
+    tone: "success",
+    text: "Profundizar en nuevas tecnologías, investigar cómo funcionan las cosas, experimentar con diferentes herramientas y convertir el conocimiento adquirido en experiencia práctica.",
+  },
+] as const;
+---
+
+<section aria-labelledby="interests-heading" class="flex flex-col gap-6">
+  <SectionHeading id="interests-heading" title="Qué me interesa" />
+  <ul class="grid gap-4 sm:grid-cols-2">
+    {
+      interests.map((item) => (
+        <li>
+          <PixelPanel class="flex h-full flex-col gap-3 p-5">
+            <h3 class:list={["h3", toneText[item.tone]]}>{item.title}</h3>
+            <p class="text-muted-foreground text-base leading-relaxed">{item.text}</p>
+          </PixelPanel>
+        </li>
+      ))
+    }
+  </ul>
+</section>

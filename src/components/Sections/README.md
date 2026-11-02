@@ -10,7 +10,7 @@ schema) and composes sections; a section never imports `BaseLayout`.
 src/components/Sections/
 ├── Global/          # shared across pages: Header, HeaderNavLinks, Footer, HeroPanel,
 │                 #   SectionHeading, CardGrid, Scoreboard
-└── <Page>/          # sections of one page: Home/, About/, Blog/, Project/, Contact/, Legal/, NotFound/, UiCatalog/
+└── <Page>/          # sections of one page: About/, Blog/, Contact/, Legal/, NotFound/
     └── <Name>.astro # PascalCase, one file per section
 ```
 

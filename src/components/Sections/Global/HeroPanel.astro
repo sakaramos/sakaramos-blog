@@ -35,7 +35,7 @@ const { tagline, heading, headingId, intro } = Astro.props as Props;
 
   <h1 id={headingId} class="h1 text-info text-balance">{heading}</h1>
 
-  {intro && <p class="text-muted-foreground max-w-3xl text-base text-balance">{intro}</p>}
+  {intro && <p class="text-muted-foreground text-base leading-relaxed">{intro}</p>}
 
   <slot />
 </PixelPanel>

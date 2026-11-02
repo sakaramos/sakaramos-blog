@@ -1,0 +1,121 @@
+---
+import SectionHeading from "@components/Sections/Global/SectionHeading.astro";
+import { PixelIcon, type PixelIconName } from "@components/svg/pixel-icons";
+
+const groups: readonly {
+  title: string;
+  items: readonly { name: string; icon: PixelIconName }[];
+}[] = [
+  {
+    title: "Lenguajes",
+    items: [
+      { name: "Python", icon: "flash" },
+      { name: "JavaScript", icon: "code" },
+      { name: "TypeScript", icon: "type" },
+      { name: "SQL", icon: "server" },
+      { name: "Bash", icon: "code" },
+    ],
+  },
+  {
+    title: "Backend y APIs",
+    items: [
+      { name: "Node.js", icon: "server" },
+      { name: "NestJS", icon: "package" },
+      { name: "REST", icon: "globe" },
+      { name: "GraphQL", icon: "component" },
+    ],
+  },
+  {
+    title: "Frontend",
+    items: [
+      { name: "React", icon: "component" },
+      { name: "Next.js", icon: "code" },
+      { name: "HTML", icon: "type" },
+      { name: "CSS", icon: "code" },
+    ],
+  },
+  {
+    title: "Bases de datos",
+    items: [
+      { name: "PostgreSQL", icon: "server" },
+      { name: "MongoDB", icon: "server" },
+      { name: "Redis", icon: "flash" },
+    ],
+  },
+  {
+    title: "Cloud y DevOps",
+    items: [
+      { name: "AWS", icon: "globe" },
+      { name: "Docker", icon: "package" },
+      { name: "Linux", icon: "code" },
+      { name: "Git", icon: "github" },
+      { name: "GitHub", icon: "github" },
+    ],
+  },
+  {
+    title: "Servicios de AWS",
+    items: [
+      { name: "S3", icon: "package" },
+      { name: "EC2", icon: "server" },
+      { name: "Lambda", icon: "flash" },
+      { name: "RDS", icon: "server" },
+      { name: "IAM", icon: "component" },
+      { name: "CloudWatch", icon: "globe" },
+      { name: "API Gateway", icon: "globe" },
+      { name: "SQS", icon: "package" },
+    ],
+  },
+  {
+    title: "Herramientas",
+    items: [
+      { name: "VS Code", icon: "code" },
+      { name: "WebStorm", icon: "code" },
+      { name: "PyCharm", icon: "code" },
+      { name: "Markdown", icon: "type" },
+      { name: "Cursor", icon: "flash" },
+    ],
+  },
+  {
+    title: "Intereses",
+    items: [
+      { name: "IA para desarrollo", icon: "flash" },
+      { name: "Arquitectura de software", icon: "component" },
+      { name: "CI/CD", icon: "package" },
+      { name: "Automatización", icon: "code" },
+      { name: "Sistemas escalables", icon: "server" },
+      { name: "Cloud computing", icon: "globe" },
+      { name: "Testing", icon: "type" },
+    ],
+  },
+];
+---
+
+<section aria-labelledby="stack-heading" class="flex flex-col gap-6">
+  <SectionHeading id="stack-heading" title="Stack tecnológico" />
+  <p class="text-muted-foreground text-base">
+    Tecnologías y herramientas que me interesa aprender, explorar y seguir incorporando a mi
+    desarrollo profesional. Las que más uso hoy son <span class="text-info font-bold">Node.js</span>,{" "}
+    <span class="text-info font-bold">NestJS</span>, <span class="text-info font-bold">Next.js</span>,{" "}
+    <span class="text-info font-bold">TypeScript</span>, <span class="text-info font-bold">PostgreSQL</span>,{" "}
+    <span class="text-info font-bold">API REST</span>, <span class="text-info font-bold">Docker</span>,{" "}
+    <span class="text-info font-bold">AWS</span>, <span class="text-info font-bold">Git</span> y{" "}
+    <span class="text-info font-bold">Cursor</span>.
+  </p>
+  <ul class="flex flex-col gap-6">
+    {
+      groups.map((group) => (
+        <li class="flex flex-col gap-3">
+          <h3 class="h3 text-foreground">{group.title}</h3>
+          <ul class="flex flex-wrap gap-3">
+            {group.items.map((item) => (
+              <li class="border-border bg-card shadow-pixel inline-flex items-center gap-2 border-4 px-3 py-2">
+                <PixelIcon name={item.icon} size="sm" />
+                <span class="font-display text-foreground text-sm uppercase">{item.name}</span>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ul>
+</section>

@@ -37,7 +37,7 @@ assert.equal(card.href, "/blog/b/", "href builds from the entry id + trailing sl
 assert.equal(card.badgeLabel, "[Lore]");
 assert.equal(card.badgeVariant, "secondary");
 assert.equal(card.badgeClass, "bg-secondary-600 text-secondary-100");
-assert.equal(card.cta, "Read");
+assert.equal(card.cta, "Leer");
 
 // getAdjacentPosts: middle has both, ends omit the missing side.
 assert.deepEqual(getAdjacentPosts(posts, "b"), {

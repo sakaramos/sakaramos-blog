@@ -1,25 +1,24 @@
 ---
-// About (/about/). Thin route shell: owns BaseLayout + SEO and composes the Figma "Pixel Quests -
-// About Me" frame (node 5:278) from Sections/About. One shared `.site-container` wraps every section
-// (aligned with the header/footer); `gap-*` gives the vertical rhythm — the same shell as index.astro.
-import Achievements from "@components/Sections/About/Achievements.astro";
-import DevProfile from "@components/Sections/About/DevProfile.astro";
-import Gear from "@components/Sections/About/Gear.astro";
+import Experience from "@components/Sections/About/Experience.astro";
 import Hero from "@components/Sections/About/Hero.astro";
-import SkillTree from "@components/Sections/About/SkillTree.astro";
+import MainStack from "@components/Sections/About/MainStack.astro";
+import Interests from "@components/Sections/About/Interests.astro";
+import Path from "@components/Sections/About/Path.astro";
+import Stack from "@components/Sections/About/Stack.astro";
 import siteData from "@config/siteData.json";
 import BaseLayout from "@layouts/BaseLayout.astro";
 ---
 
 <BaseLayout
-  title={`About — ${siteData.name}`}
-  description="The dev profile: a full-stack developer's project log, tech stack, unlocked achievements, and daily-driver setup — all in 8-bit."
+  title={`Sobre mí — ${siteData.name}`}
+  description="Andres Ramos, desarrollador de software de Pitalito, Huila. Backend, productos e inteligencia artificial."
 >
   <div class="site-container flex flex-col gap-10 py-8 md:gap-12 md:py-12">
     <Hero />
-    <DevProfile />
-    <SkillTree />
-    <Achievements />
-    <Gear />
+    <MainStack />
+    <Interests />
+    <Path />
+    <Experience />
+    <Stack />
   </div>
 </BaseLayout>

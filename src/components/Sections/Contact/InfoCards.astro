@@ -13,12 +13,10 @@
 import type { BadgeVariant } from "@components/ui/badge";
 import { Badge } from "@components/ui/badge";
 import { PixelPanel } from "@components/ui/pixel-panel";
-import siteData from "@config/siteData.json";
-import { socialHref } from "@config/socialData.json";
-
-const email = siteData.author.email;
-const github = socialHref("github");
-const discord = socialHref("discord");
+const email = "andfera201@gmail.com";
+const github = "https://github.com/sakaramos";
+const linkedin = "https://www.linkedin.com/in/sakaramos/";
+const whatsapp = "https://wa.me/573172116762";
 
 /** Strip scheme + trailing slash for the displayed value (the box still links to the full URL). */
 const display = (url: string): string => url.replace(/^https?:\/\//, "").replace(/\/$/, "");
@@ -32,28 +30,36 @@ const cards: readonly {
   href: string;
 }[] = [
   {
-    tag: "E-Mail",
-    tone: "info",
-    title: "Telepathy",
-    blurb: "Direct digital link to my HQ mailbox",
+    tag: "Correo",
+    tone: "secondary",
+    title: "Email",
+    blurb: "Escríbeme directo a mi correo",
     value: email,
     href: `mailto:${email}`,
   },
   {
-    tag: "Community",
+    tag: "Código",
     tone: "success",
-    title: "Discord Bar",
-    blurb: "Hang out with fellow retro hackers",
-    value: display(discord),
-    href: discord,
-  },
-  {
-    tag: "Codebase",
-    tone: "secondary",
-    title: "GitHub Hub",
-    blurb: "Inspect my open-source pipelines",
+    title: "GitHub",
+    blurb: "Repositorios y perfil",
     value: display(github),
     href: github,
+  },
+  {
+    tag: "Red",
+    tone: "info",
+    title: "LinkedIn",
+    blurb: "Perfil profesional",
+    value: display(linkedin),
+    href: linkedin,
+  },
+  {
+    tag: "Chat",
+    tone: "success",
+    title: "WhatsApp",
+    blurb: "El camino más directo",
+    value: "WhatsApp",
+    href: whatsapp,
   },
 ];
 ---
@@ -66,7 +72,7 @@ const cards: readonly {
           {card.tag}
         </Badge>
         <h2 class="h3 text-foreground">{card.title}</h2>
-        <p class="text-muted-foreground text-xs">{card.blurb}</p>
+        <p class="text-muted-foreground text-base leading-relaxed">{card.blurb}</p>
         <a
           href={card.href}
           class="bg-accent border-border text-info hover:text-success primary-focus block w-full truncate border-2 p-3 text-sm uppercase transition-colors"

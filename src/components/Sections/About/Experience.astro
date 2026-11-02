@@ -1,0 +1,79 @@
+---
+import SectionHeading from "@components/Sections/Global/SectionHeading.astro";
+import { PixelPanel } from "@components/ui/pixel-panel";
+
+const toneText = {
+  success: "text-success-700 dark:text-success",
+  secondary: "text-secondary-700 dark:text-secondary",
+} as const;
+
+const jobs = [
+  {
+    name: "R5",
+    tone: "success",
+    focus: "Fintech · Área de seguros",
+    summary:
+      "Durante mis primeros años trabajé en el área de seguros de R5, donde participé en el desarrollo de automatizaciones, scripts e integraciones. También brindé soporte técnico interno y externo a diferentes áreas y entidades, entre ellas Bancolombia y AXA Seguros, apoyando la operación de venta de SOAT desde la plataforma.",
+    points: [
+      "Soporte técnico interno y externo: atención de requerimientos, análisis de errores y resolución de incidentes relacionados con la operación.",
+      "Venta de SOAT: soporte al funcionamiento de los procesos de venta desde el sistema de R5.",
+      "Integraciones con terceros: desarrollo y mantenimiento de conexiones con entidades financieras, aseguradoras y otros proveedores.",
+      "Integración de servicios: incorporación de nuevas aseguradoras y pasarelas de pago.",
+      "Automatización de procesos: desarrollo de scripts y herramientas para optimizar tareas operativas.",
+      "Prevención de fraude: participación en herramientas para la gestión de fraudes y listas de clientes restringidos.",
+    ],
+    href: "https://www.grupor5.com/comprar-soat-en-linea",
+    link: "Conocer R5",
+  },
+  {
+    name: "Novadynamics",
+    tone: "secondary",
+    focus: "Desarrollo de productos de software",
+    summary:
+      "Actualmente trabajo en Novadynamics, participando en el desarrollo de una solución tecnológica para contact centers virtuales. La plataforma integra chat, telefonía, herramientas de gestión e inteligencia artificial para centralizar la operación en un mismo entorno.",
+    points: [
+      "Análisis de requerimientos: identificación de necesidades y definición de soluciones técnicas.",
+      "Bases de datos: diseño, estructuración y gestión de modelos de datos.",
+      "Desarrollo de software: implementación y evolución de funcionalidades de la plataforma.",
+      "Inteligencia artificial: desarrollo e implementación de capacidades de IA dentro de las soluciones de software.",
+      "Arquitectura: participación en decisiones técnicas sobre el diseño y la organización de las soluciones.",
+      "Despliegue: puesta en funcionamiento de aplicaciones y nuevas funcionalidades.",
+      "Herramientas y procesos: desarrollo de utilidades internas y optimización de los procesos de trabajo del equipo.",
+    ],
+    href: "https://nova-dynamics.net/",
+    link: "Visitar Novadynamics",
+  },
+] as const;
+---
+
+<section aria-labelledby="experience-heading" class="flex flex-col gap-6">
+  <SectionHeading id="experience-heading" title="Experiencia" />
+  <ul class="grid gap-4 lg:grid-cols-2">
+    {
+      jobs.map((job) => (
+        <li>
+          <PixelPanel class="flex h-full flex-col gap-4 p-5 sm:p-6">
+            <header class="flex flex-col gap-1">
+              <h3 class:list={["h3", toneText[job.tone]]}>{job.name}</h3>
+              <p class="text-info text-sm font-bold">{job.focus}</p>
+            </header>
+            <p class="text-muted-foreground text-base leading-relaxed">{job.summary}</p>
+            <ul class="text-muted-foreground flex list-disc flex-col gap-2 pl-5 text-base leading-relaxed">
+              {job.points.map((point) => (
+                <li>{point}</li>
+              ))}
+            </ul>
+            <a
+              href={job.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-info hover:text-success mt-auto text-sm underline underline-offset-2"
+            >
+              {job.link}
+            </a>
+          </PixelPanel>
+        </li>
+      ))
+    }
+  </ul>
+</section>

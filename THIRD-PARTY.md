@@ -83,7 +83,7 @@ or in a logo of your own.
 
 If you would rather not carry the exposure at all, the four pixel marks are drawn in
 `src/components/svg/pixel-icons/pixelIcons.ts` and referenced from
-`src/components/Sections/Global/Footer.astro` and `src/components/Sections/Home/Contact.astro`.
+`src/components/Sections/Global/Footer.astro`.
 Replacing them with generic glyphs is a contained change.
 
 ## 4. Code ports

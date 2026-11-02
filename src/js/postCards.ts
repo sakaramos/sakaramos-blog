@@ -56,7 +56,7 @@ export function toPostCard(entry: CollectionEntry<"blog">): ContentCardProps {
     badgeClass,
     title: data.title,
     description: data.description,
-    cta: "Read",
+    cta: "Leer",
   };
 }
 
