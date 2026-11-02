@@ -1,0 +1,22 @@
+---
+import BlogListing from "@components/Sections/Blog/BlogListing.astro";
+import { getSortedPosts } from "@js/blogData";
+import { CATEGORY_PAGE_SIZE, groupPostsByCategory } from "@js/postCards";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths = (async () => {
+  const groups = groupPostsByCategory(await getSortedPosts());
+  return groups
+    .filter((group) => group.id !== "pagina")
+    .flatMap((group) => {
+      const pages = Math.ceil(group.items.length / CATEGORY_PAGE_SIZE);
+      return Array.from({ length: Math.max(0, pages - 1) }, (_, index) => ({
+        params: { category: group.id, page: String(index + 2) },
+      }));
+    });
+}) satisfies GetStaticPaths;
+
+const { category, page } = Astro.params;
+---
+
+<BlogListing mode="categoria" view={category ?? ""} page={Number(page)} />

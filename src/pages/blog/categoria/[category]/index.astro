@@ -1,0 +1,17 @@
+---
+import BlogListing from "@components/Sections/Blog/BlogListing.astro";
+import { getSortedPosts } from "@js/blogData";
+import { groupPostsByCategory } from "@js/postCards";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths = (async () => {
+  const groups = groupPostsByCategory(await getSortedPosts());
+  return groups
+    .filter((group) => group.id !== "pagina")
+    .map((group) => ({ params: { category: group.id } }));
+}) satisfies GetStaticPaths;
+
+const { category } = Astro.params;
+---
+
+<BlogListing mode="categoria" view={category ?? ""} page={1} />

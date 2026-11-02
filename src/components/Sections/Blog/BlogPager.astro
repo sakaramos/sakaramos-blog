@@ -1,0 +1,25 @@
+---
+interface Props {
+  page: number;
+  pages: number;
+  hrefFor: (page: number) => string;
+}
+const { page, pages, hrefFor } = Astro.props;
+---
+
+{
+  pages > 1 && (
+    <nav aria-label="Páginas" class="flex flex-wrap gap-4">
+      {page > 1 && (
+        <a href={hrefFor(page - 1)} class="pixel-btn pixel-btn--green h-12 px-5 text-sm uppercase">
+          Anterior
+        </a>
+      )}
+      {page < pages && (
+        <a href={hrefFor(page + 1)} class="pixel-btn pixel-btn--green h-12 px-5 text-sm uppercase">
+          Siguiente
+        </a>
+      )}
+    </nav>
+  )
+}

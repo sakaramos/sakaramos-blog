@@ -36,10 +36,9 @@ if (isProductionDeploy && placeholderHosts.has(hostname)) {
 export default defineConfig({
   site,
 
-  // The site is static EXCEPT one page: `/contact/` sets `export const prerender = false` because
-  // it receives the Resend form POST and re-renders itself with the result.
-  // That single on-demand route is the only thing the Cloudflare Worker ever runs; every other
-  // route still prerenders to HTML and is served as a static asset (see wrangler.jsonc). Swap this
+  // The site is static EXCEPT `/contact/` (the Resend form POST). That on-demand route is what the
+  // Cloudflare Worker runs; every other route still prerenders to HTML and is served as a static
+  // asset (see wrangler.jsonc). Swap this
   // for `@astrojs/node` / `@astrojs/netlify` / `@astrojs/vercel` in two lines if the host changes
   // (nothing else knows which adapter is mounted). Drop the contact form and remove this line to go
   // fully static again.

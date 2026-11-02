@@ -5,7 +5,16 @@ import assert from "node:assert/strict";
 
 import type { CollectionEntry } from "astro:content";
 
-import { categoryMeta, getAdjacentPosts, getRelatedPosts, toPostCard } from "./postCards.ts";
+import {
+  categoryMeta,
+  getAdjacentPosts,
+  getRelatedPosts,
+  groupPostsByCategory,
+  listingHref,
+  pageWindow,
+  searchRank,
+  toPostCard,
+} from "./postCards.ts";
 
 // categoryMeta: known tones + the maroon override + the unknown fallback.
 assert.deepEqual(categoryMeta("Quest"), { label: "[Quest]", variant: "success" });
@@ -29,7 +38,40 @@ const mk = (id: string, category: string): CollectionEntry<"blog"> =>
     },
   }) as unknown as CollectionEntry<"blog">;
 
-const posts = [mk("a", "Tech"), mk("b", "Lore"), mk("c", "Tech"), mk("d", "Guide")];
+const posts = [mk("a", "Tech"), mk("b", "Lore"), mk("c", "tech"), mk("d", "Guide")];
+
+const windowed = pageWindow(["a", "b", "c", "d", "e", "f"], 2, 5);
+assert.equal(windowed.pages, 2);
+assert.deepEqual(windowed.items, ["f"]);
+assert.equal(pageWindow(["a"], 9, 15).page, 1);
+assert.equal(listingHref("todos", 1), "/blog/");
+assert.equal(listingHref("todos", 2), "/blog/pagina/2/");
+assert.equal(listingHref("software", 1), "/blog/categoria/software/");
+assert.equal(listingHref("software", 2), "/blog/categoria/software/pagina/2/");
+
+const ranked = searchRank(
+  [
+    { title: "Notas de git", tags: ["ejemplo"] },
+    { title: "API REST", tags: ["backend"] },
+    { title: "Otra cosa", tags: ["git"] },
+  ],
+  "git",
+);
+assert.deepEqual(
+  ranked.map((item) => item.title),
+  ["Notas de git", "Otra cosa"],
+);
+
+const groups = groupPostsByCategory(posts);
+assert.deepEqual(
+  groups.map((group) => [group.label, group.items.map((item) => item.href)]),
+  [
+    ["Tech", ["/blog/a/", "/blog/c/"]],
+    ["Lore", ["/blog/b/"]],
+    ["Guide", ["/blog/d/"]],
+  ],
+  "categories are created from posts, case-insensitive, newest section first",
+);
 
 // toPostCard: href from id, category → badge, CTA.
 const card = toPostCard(posts[1]);

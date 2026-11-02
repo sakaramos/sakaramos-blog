@@ -37,6 +37,46 @@ export function categoryMeta(category: string): CategoryMeta {
   return { label: `[${category}]`, ...tone };
 }
 
+export interface PostCategoryGroup {
+  /** stable heading id, from the category name. */
+  id: string;
+  /** category as written on the newest post in the group. */
+  label: string;
+  items: ContentCardProps[];
+}
+
+/**
+ * Group already date-sorted posts by `category`. A category appears the first time a post uses it,
+ * so the section order follows the newest post in each group. Matching ignores case. There is no
+ * fixed category list.
+ *
+ * @param posts newest-first (see blogData.getSortedPosts)
+ */
+export function groupPostsByCategory(
+  posts: readonly CollectionEntry<"blog">[],
+): PostCategoryGroup[] {
+  const groups: PostCategoryGroup[] = [];
+  const index = new Map<string, PostCategoryGroup>();
+  for (const post of posts) {
+    const label = post.data.category.trim() || "Sin categoría";
+    const key = label.toLocaleLowerCase("es");
+    let group = index.get(key);
+    if (!group) {
+      const slug =
+        key
+          .normalize("NFD")
+          .replace(/\p{M}/gu, "")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "") || "categoria";
+      group = { id: slug, label, items: [] };
+      index.set(key, group);
+      groups.push(group);
+    }
+    group.items.push(toPostCard(post));
+  }
+  return groups;
+}
+
 /**
  * Map a `blog` entry to the shared ContentCard props used by every post grid.
  *
@@ -58,6 +98,72 @@ export function toPostCard(entry: CollectionEntry<"blog">): ContentCardProps {
     description: data.description,
     cta: "Leer",
   };
+}
+
+/** Cards shown in the Todos section before the next page. */
+export const ALL_PAGE_SIZE = 9;
+/** Cards shown in one category section before the next page. */
+export const CATEGORY_PAGE_SIZE = 9;
+
+/**
+ * Rank posts for the search box. An empty query keeps the current order. A query prefers a title
+ * that matches more closely, then a tag that contains it.
+ */
+export function searchRank<T extends { title: string; tags?: readonly string[] }>(
+  items: readonly T[],
+  query: string,
+): T[] {
+  const q = query.trim().toLocaleLowerCase("es");
+  if (!q) return [...items];
+  return items
+    .map((item, index) => ({ item, index, score: searchScore(item.title, item.tags ?? [], q) }))
+    .filter((row) => row.score > 0)
+    .sort((a, b) => b.score - a.score || a.index - b.index)
+    .map((row) => row.item);
+}
+
+function searchScore(title: string, tags: readonly string[], query: string): number {
+  const name = title.toLocaleLowerCase("es");
+  let score = 0;
+  if (name === query) score += 100;
+  else if (name.startsWith(query)) score += 80;
+  else if (name.includes(query)) score += 60 + Math.max(0, 20 - name.indexOf(query));
+  else {
+    let at = 0;
+    let hits = 0;
+    for (const char of query) {
+      const next = name.indexOf(char, at);
+      if (next === -1) break;
+      at = next + 1;
+      hits += 1;
+    }
+    if (hits >= Math.ceil(query.length * 0.6)) score += hits;
+  }
+  if (tags.some((tag) => tag.toLocaleLowerCase("es").includes(query))) score += 50;
+  return score;
+}
+
+/**
+ * One page of an already date-sorted list. Page numbers start at 1. Out-of-range pages clamp.
+ */
+export function pageWindow<T>(
+  items: readonly T[],
+  page: number,
+  size: number,
+): { page: number; pages: number; items: T[] } {
+  const pages = Math.max(1, Math.ceil(items.length / size) || 1);
+  const current = Number.isFinite(page) ? Math.min(Math.max(1, Math.floor(page)), pages) : 1;
+  const start = (current - 1) * size;
+  return { page: current, pages, items: items.slice(start, start + size) };
+}
+
+/**
+ * Listing URL. Each view and page is its own path, so the client router fetches it instead of
+ * reusing `/blog/`. Page 1 has no `pagina` segment.
+ */
+export function listingHref(view: string, page: number): string {
+  if (view === "todos") return page > 1 ? `/blog/pagina/${page}/` : "/blog/";
+  return page > 1 ? `/blog/categoria/${view}/pagina/${page}/` : `/blog/categoria/${view}/`;
 }
 
 export interface AdjacentLink {

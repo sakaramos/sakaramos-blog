@@ -1,0 +1,41 @@
+---
+import { PixelPanel } from "@components/ui/pixel-panel";
+
+interface Item {
+  id: string;
+  label: string;
+  href: string;
+  current: boolean;
+}
+interface Props {
+  items: readonly Item[];
+}
+const { items } = Astro.props;
+
+const tones = [
+  "text-success-700 dark:text-success",
+  "text-info",
+  "text-secondary-700 dark:text-secondary",
+];
+---
+
+<PixelPanel class="bg-muted flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-3 p-4 text-sm sm:text-base">
+  {
+    items.map((item, i) => (
+      <Fragment>
+        {i > 0 && <span class="bg-base-400 h-3.5 w-1 shrink-0" aria-hidden="true" />}
+        <a
+          href={item.href}
+          aria-current={item.current ? "true" : undefined}
+          class:list={[
+            "font-display border-b-4 border-transparent uppercase",
+            tones[i % tones.length],
+            item.current && "border-current",
+          ]}
+        >
+          {item.label}
+        </a>
+      </Fragment>
+    ))
+  }
+</PixelPanel>

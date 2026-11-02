@@ -46,7 +46,9 @@ The article body goes here, in Markdown.
 | `pubDate` | yes | Date. Sorts the listing, newest first. Format `YYYY-MM-DD` |
 | `heroImage` | yes | Cover. Path to a file next to the post |
 | `heroImageAlt` | yes | Image alt text |
-| `category` | yes | Colored badge on the card. Examples: Tech, Guide, Dev Log |
+| `category` | yes | Colored badge on the card, and a link on the `/blog/` bar. A new value adds its own link. Examples: Tech, Guide, Dev Log |
+
+`/blog/` lists posts newest first (`pubDate`), 9 per page. The bar has Todo, Categoría (`/blog/categoria/`), and Buscar (`/blog/buscar/`). A category page is `/blog/categoria/<category>/`. Later pages are `/blog/pagina/2/` and `/blog/categoria/<category>/pagina/2/`. Search filters by title or tag in the browser, also 9 per page.
 | `tags` | no | Topic list. Use `[]` when there are none |
 | `updatedDate` | no | Update date |
 | `draft` | no | `true` hides the post from the listing |

@@ -1,0 +1,182 @@
+---
+import ContentCard from "@components/Cards/ContentCard.astro";
+import BlogHero from "@components/Sections/Blog/BlogHero.astro";
+import BlogPager from "@components/Sections/Blog/BlogPager.astro";
+import CategoryBar from "@components/Sections/Blog/CategoryBar.astro";
+import CardGrid from "@components/Sections/Global/CardGrid.astro";
+import siteData from "@config/siteData.json";
+import { getSortedPosts } from "@js/blogData";
+import {
+  ALL_PAGE_SIZE,
+  CATEGORY_PAGE_SIZE,
+  groupPostsByCategory,
+  listingHref,
+  pageWindow,
+  toPostCard,
+} from "@js/postCards";
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+interface Props {
+  mode: "todos" | "categoria" | "buscar";
+  view: string;
+  page: number;
+}
+const { mode, view, page } = Astro.props;
+
+const posts = await getSortedPosts();
+const groups = groupPostsByCategory(posts);
+const all = posts.map((post) => ({
+  card: toPostCard(post),
+  title: post.data.title,
+  tags: post.data.tags,
+  category: post.data.category,
+}));
+const active = mode === "categoria" ? groups.find((group) => group.id === view) : undefined;
+const source = active ? active.items : all.map((item) => item.card);
+const windowed = pageWindow(source, page, active ? CATEGORY_PAGE_SIZE : ALL_PAGE_SIZE);
+
+const toneClass = [
+  "text-success-700 dark:text-success",
+  "text-info",
+  "text-secondary-700 dark:text-secondary",
+];
+const bar = [
+  { id: "todos", label: "Todo", href: listingHref("todos", 1), current: mode === "todos" },
+  { id: "categoria", label: "Categoría", href: "/blog/categoria/", current: mode === "categoria" },
+  { id: "buscar", label: "Buscar", href: "/blog/buscar/", current: mode === "buscar" },
+];
+---
+
+<BaseLayout
+  title={`Artículos — ${siteData.name}`}
+  description="Temas y aprendizajes sobre software, tecnología, inteligencia artificial, metodologías y tecnología cloud."
+>
+  <div class="site-container flex flex-col gap-10 py-8 md:gap-12 md:py-12">
+    <BlogHero>
+      {
+        (
+          <div class="flex w-full flex-col gap-4">
+            <CategoryBar items={bar} />
+            {posts.length > 0 && mode === "categoria" && !active && groups.length > 0 && (
+              <div class="border-border bg-card flex w-full flex-wrap gap-x-4 gap-y-3 border-4 p-4">
+                {groups.map((group, index) => (
+                  <a
+                    href={listingHref(group.id, 1)}
+                    aria-current={group.id === active?.id ? "true" : undefined}
+                    class:list={[
+                      "font-display text-base uppercase sm:text-lg",
+                      toneClass[index % toneClass.length],
+                      group.id === active?.id && "border-b-4 border-current",
+                    ]}
+                  >
+                    {group.label}
+                  </a>
+                ))}
+              </div>
+            )}
+            {posts.length > 0 && mode === "buscar" && (
+              <input
+                id="blog-search"
+                type="search"
+                placeholder="Busca por título o etiqueta"
+                aria-label="Buscar"
+                class="border-border bg-card text-foreground w-full border-4 px-3 py-3 text-base"
+              />
+            )}
+          </div>
+        )
+      }
+    </BlogHero>
+    {
+      posts.length === 0 ? (
+        <CardGrid headingId="blog-empty" items={[]} />
+      ) : mode === "buscar" ? (
+        <div data-blog-search class="flex flex-col gap-6">
+          <h2 class="h2 text-info">Buscar</h2>
+          <p id="blog-search-empty" class="text-muted-foreground hidden text-base">Nada coincide.</p>
+          <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {all.map((item) => (
+              <li
+                data-search-item
+                data-title={item.title}
+                data-tags={[...item.tags, item.category].join("|")}
+              >
+                <ContentCard {...item.card} />
+              </li>
+            ))}
+          </ul>
+          <nav aria-label="Páginas" class="flex flex-wrap gap-4">
+            <button type="button" data-search-prev class="pixel-btn pixel-btn--green hidden h-12 px-5 text-sm uppercase">
+              Anterior
+            </button>
+            <button type="button" data-search-next class="pixel-btn pixel-btn--green hidden h-12 px-5 text-sm uppercase">
+              Siguiente
+            </button>
+          </nav>
+        </div>
+      ) : mode === "categoria" && !active ? null : groups.length > 0 ? (
+        <div class="flex flex-col gap-6">
+          <CardGrid headingId="blog-list" title={active?.label ?? "Todo"} items={windowed.items} />
+          <BlogPager
+            page={windowed.page}
+            pages={windowed.pages}
+            hrefFor={(next) => listingHref(active?.id ?? "todos", next)}
+          />
+        </div>
+      ) : (
+        <CardGrid headingId="blog-empty" items={[]} />
+      )
+    }
+  </div>
+</BaseLayout>
+
+<script>
+  import { searchRank } from "@js/postCards";
+
+  const size = 9;
+
+  function setupSearch() {
+    const root = document.querySelector<HTMLElement>("[data-blog-search]");
+    const input = document.querySelector<HTMLInputElement>("#blog-search");
+    if (!root || !input || root.dataset.ready === "true") return;
+    root.dataset.ready = "true";
+
+    const cards = [...root.querySelectorAll<HTMLElement>("[data-search-item]")].map((el) => ({
+      el,
+      title: el.dataset.title ?? "",
+      tags: (el.dataset.tags ?? "").split("|").filter(Boolean),
+    }));
+    const empty = document.querySelector<HTMLElement>("#blog-search-empty");
+    const prev = root.querySelector<HTMLButtonElement>("[data-search-prev]");
+    const next = root.querySelector<HTMLButtonElement>("[data-search-next]");
+    let page = 0;
+
+    const render = () => {
+      const ranked = searchRank(cards, input.value);
+      const pages = Math.max(1, Math.ceil(ranked.length / size));
+      page = Math.min(page, pages - 1);
+      const visible = new Set(ranked.slice(page * size, page * size + size).map((item) => item.el));
+      for (const card of cards) card.el.classList.toggle("hidden", !visible.has(card.el));
+      empty?.classList.toggle("hidden", ranked.length > 0);
+      prev?.classList.toggle("hidden", page <= 0 || ranked.length === 0);
+      next?.classList.toggle("hidden", page >= pages - 1 || ranked.length === 0);
+    };
+
+    input.addEventListener("input", () => {
+      page = 0;
+      render();
+    });
+    prev?.addEventListener("click", () => {
+      page -= 1;
+      render();
+    });
+    next?.addEventListener("click", () => {
+      page += 1;
+      render();
+    });
+    render();
+  }
+
+  setupSearch();
+  document.addEventListener("astro:page-load", setupSearch);
+</script>
